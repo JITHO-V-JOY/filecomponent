@@ -2,13 +2,13 @@
     <div class="container" style="margin-top:10px;">
         <div class="row">
             <div class="col-12 col-md-2">
-                <File  />
+                <FileComponent :mode="mode" />
             </div>
               <div class="col-12 col-md-4">
-                <File  />
+                <FileComponent :mode="mode" />
             </div>
               <div class="col-12 col-md-4">
-                <File  />
+                <FileComponent :mode="mode" />
             </div>
             
            
@@ -16,11 +16,16 @@
     </div>
 </template>
 <script>
-import File from '../fileComponent/File.vue'
+import FileComponent from '../fileComponent/FileComponent.vue'
 export default {
     name:'Home',
+    data(){
+        return{
+            mode:"create"
+        }
+    },
     components:{
-        File
+        FileComponent
     }
 }
 </script>

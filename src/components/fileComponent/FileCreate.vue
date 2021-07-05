@@ -3,7 +3,7 @@
         <input type="file" multiple name="files" />
         <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:17px;"></i>
         <div>
-            <span> Drag & Drop or <span class="browse">browse</span></span>
+            <span> Drag & Drop or <span class="browse">click here</span></span>
         </div>             
     </div>
        
@@ -11,6 +11,7 @@
 
 <script>
 export default {
+    name:'FileCreate',
     props:['label']
 }
 </script>
