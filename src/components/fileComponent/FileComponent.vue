@@ -1,12 +1,12 @@
 <template>
-        <component :is="fileMode" />
+        <component :is="fileMode" :arraylist="arraylist" />
 </template>
 
 <script>
 import FileCreate from './FileCreate.vue'
 export default {
     name:'FileComponent',
-    props:['mode'],
+    props:['mode', 'arraylist'],
     components:{
         FileCreate  
     },
