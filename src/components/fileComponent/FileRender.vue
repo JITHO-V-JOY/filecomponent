@@ -2,7 +2,7 @@
                 <div @click="showPreview">
                      <div class="file-info">
                         <span>{{fileinfo.name}}</span>
-                        <i class="fas fa-times"></i>
+                        <i v-if="deleteoption" class="fas fa-times"></i>
                     </div>
                     <img v-if="preview" :src="fileinfo.url" alt="" width="100%" height="200px">
                 </div>
@@ -12,7 +12,7 @@
 <script>
 export default {
     name:"FileRender",
-    props:["fileinfo"],
+    props:["fileinfo", "deleteoption"],
     data(){
         return{
             preview: false
