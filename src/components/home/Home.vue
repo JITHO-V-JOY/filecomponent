@@ -2,7 +2,7 @@
     <div class="container" style="margin-top:10px;">
         <div class="row">
             <div class="col-12 col-md-3">
-                <FileComponent :mode="mode"  :arraylist="arraylist" :multiple="true"  :accept="accept" />
+                <FileComponent :mode="'update'"  :arraylist="arraylist" :multiple="true"  :accept="accept" />
             </div>
               <div class="col-12 col-md-4">
                 <FileComponent :mode="mode"  :arraylist="arraylist" :multiple="false" :accept="accept" />
