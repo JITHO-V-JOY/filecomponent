@@ -1,4 +1,5 @@
 import axios from '../../axios-index';
+//import axios from "axios"
 
 function getFileInfo(callback){
     axios.get('/file').then((response, err)=>{
@@ -12,4 +13,20 @@ function getFileInfo(callback){
     }).catch((err)=> callback(null, err));
 }
 
-export {getFileInfo}
+function uploadFile(data, callback){
+    axios.post("/api/file", data, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    })
+    .then((res)=>{
+        callback(res, null)
+        console.log(res)
+    })
+    .catch((err)=> {
+        callback(null, err)
+        console.log(err)
+    })
+}
+
+export {getFileInfo, uploadFile}

@@ -1,26 +1,33 @@
 <template>
                 <div @click="showPreview">
                      <div class="file-info">
-                        <span>{{fileinfo.name}}</span>
+                        <span>{{fileinfo.filename}}</span>
                         <i v-if="deleteoption" class="fas fa-times"></i>
                     </div>
-                    <img v-if="preview" :src="fileinfo.url" alt="" width="100%" height="200px">
+                    <img v-if="preview" :src="fileurl+fileinfo._id" alt="" width="100%" height="200px">
                 </div>
                
 
 </template>
 <script>
+import {fileurl} from "../../../public/config"
 export default {
     name:"FileRender",
     props:["fileinfo", "deleteoption"],
     data(){
         return{
-            preview: false
+            preview: false,
+            fileurl: fileurl
         }
     },
+    
     methods:{
         showPreview(){
-            this.preview = !this.preview
+            if(this.fileinfo.filename.match(/.pdf/)){
+                window.open(this.fileurl+ this.fileinfo._id)
+            }else{
+                this.preview = !this.preview
+            }
         }
     }
 }
