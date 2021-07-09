@@ -1,5 +1,9 @@
 <template>
-    <div class="dropzone" @dragover="dragOver" @dragleave="dragLeave">
+    <div>
+         <label for="dropzone" style="font-weight:bold">{{label}}</label>
+
+         <b-overlay :show="isLoading" rounded="sm" variant="danger">
+         <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave">
          <div class="file-input" >
             <b-form-file class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:17px;"></i>
@@ -9,7 +13,10 @@
             <FileRender v-for="fileinfo in arraylist" :fileinfo="fileinfo" :key="fileinfo.id" :deleteoption="true"  />
         </div>
                
+        </div>
+         </b-overlay>
     </div>
+   
        
 </template>
 
@@ -18,19 +25,20 @@ import {uploadFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileCreate',
-    props:['arraylist', 'accept', 'multiple'],
+    props:['arraylist', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     },
     data(){
         return {
-            formdata:""
+            formdata:"",
+            isLoading: false
         }
     },
     methods:{
         onChange(event){
-
-            this.formdata.set("user", 123);
+            this.isLoading = !this.isLoading
+            this.formdata.set("user", "123");
             this.formdata.set("name", event.target.name)
             for(let i = 0; i < event.target.files.length; i++){
                 this.formdata.set("photo"+String(i), event.target.files[i])
@@ -43,6 +51,8 @@ export default {
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)
                     this.arraylist = fileinfo.data;
+                    this.isLoading = !this.isLoading
+                    document.getElementById("dropzone").style.background = "rgb(243, 217, 217)"
                 }
             })
             

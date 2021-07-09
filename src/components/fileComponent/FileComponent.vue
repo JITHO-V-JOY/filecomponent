@@ -1,5 +1,5 @@
 <template>
-        <component :is="fileMode" :arraylist="arraylist" :accept="accept" :multiple="multiple" />
+        <component :is="fileMode" :arraylist="arraylist" :accept="accept" :multiple="multiple"  :label="label"/>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ import FileCreate from './FileCreate.vue'
 import FileUpdate from './FileUpdate.vue'
 export default {
     name:'FileComponent',
-    props:['mode', 'arraylist', 'multiple', 'accept'],
+    props:['mode', 'arraylist', 'multiple', 'accept', 'label'],
     components:{
         FileCreate ,
         FileUpdate
