@@ -5,13 +5,15 @@
          <b-overlay :show="isLoading" rounded="sm" variant="danger">
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave">
          <div class="file-input" >
-            <b-form-file class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
+            <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:17px;"></i>
-            <span> Drag & Drop or <a href="" class="browse">click here</a></span>   
+            <span> Drag & Drop or <a href="" class="browse">click here</a></span>
+            
         </div>
-        <div>
-            <FileRender v-for="fileinfo in arraylist" :fileinfo="fileinfo" :key="fileinfo.id" :deleteoption="true"  />
-        </div>
+         <div>
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.id" :deleteoption="true"  @delete="deleteFile"  />
+        </div>   
+       
                
         </div>
          </b-overlay>
@@ -32,14 +34,18 @@ export default {
     data(){
         return {
             formdata:"",
+            fileList: [],
             isLoading: false
         }
     },
     methods:{
         onChange(event){
+            event.preventDefault();
+            this.formdata = new FormData();
             this.isLoading = !this.isLoading
             this.formdata.set("user", "123");
             this.formdata.set("name", event.target.name)
+            
             for(let i = 0; i < event.target.files.length; i++){
                 this.formdata.set("photo"+String(i), event.target.files[i])
                 
@@ -48,31 +54,35 @@ export default {
             uploadFile(this.formdata, (fileinfo, err)=>{
                 if(err){
                     alert(err)
+                    this.formdata = null;
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)
-                    this.arraylist = fileinfo.data;
+                    this.fileList = fileinfo.data;
                     this.isLoading = !this.isLoading
-                    document.getElementById("dropzone").style.background = "rgb(243, 217, 217)"
+                    let parent =  event.target.parentElement
+                    parent.parentElement.style.background = "white";
+                    this.formdata = null;
+                    event.target.value= "";
                 }
             })
             
         },
+
+        deleteFile(id){
+             this.fileList = this.fileList.filter((file)=> file._id !== id)
+        },
+
         dragOver(event){
             event.preventDefault();
             event.currentTarget.style.background = "rgb(243, 217, 217)";
         },
+
         dragLeave(event){
             event.preventDefault();
-            if(!this.arraylist[0]){
-                event.currentTarget.style.background = "white";
-            }
+            event.currentTarget.style.background = "white";
         },
   
-    },
-    created(){
-        this.formdata = new FormData();
-    }
-    
+    } 
 }
 </script>
 

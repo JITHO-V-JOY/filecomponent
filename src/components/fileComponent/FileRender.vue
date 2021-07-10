@@ -1,16 +1,17 @@
 <template>
-                <div @click="showPreview">
-                     <div class="file-info">
-                        <span>{{fileinfo.filename}}</span>
-                        <i v-if="deleteoption" class="fas fa-times"></i>
+        <div >
+            <div class="file-info">
+                <span @click="showPreview">{{fileinfo.filename}}</span>
+                    <i v-if="deleteoption" class="fas fa-times" @click="onDelete"></i>
                     </div>
-                    <img v-if="preview" :src="fileurl+fileinfo._id" alt="" width="100%" height="200px">
+                    <img v-if="preview" :src="fileurl+fileinfo._id" alt="" width="100%" height="200px" >
                 </div>
                
 
 </template>
 <script>
 import {fileurl} from "../../../public/config"
+import {deleteFile} from "./services"
 export default {
     name:"FileRender",
     props:["fileinfo", "deleteoption"],
@@ -28,6 +29,16 @@ export default {
             }else{
                 this.preview = !this.preview
             }
+        },
+        onDelete(){
+            deleteFile(this.fileinfo._id, (response, err)=>{
+                if(err){
+                    alert(err);
+                }
+                if(response){
+                    this.$emit('delete', this.fileinfo._id)
+                }
+            })
         }
     }
 }

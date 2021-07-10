@@ -29,4 +29,19 @@ function uploadFile(data, callback){
     })
 }
 
-export {getFileInfo, uploadFile}
+function deleteFile(file_id, callback){
+    axios.delete(`/api/file/${file_id}`)
+    .then((response, err)=>{
+        if(err){
+            throw err
+        }
+        if(response){
+            console.log(response.data);
+            callback(response.data, null)
+        }
+    })
+    .catch((err)=> callback(null, err))
+    
+}
+
+export {getFileInfo, uploadFile, deleteFile}
