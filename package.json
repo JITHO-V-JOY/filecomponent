@@ -12,6 +12,7 @@
     "bootstrap": "^5.0.2",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
+    "minio": "^7.0.18",
     "vue": "^2.6.11"
   },
   "devDependencies": {

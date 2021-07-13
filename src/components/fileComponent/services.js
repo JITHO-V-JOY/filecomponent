@@ -1,6 +1,16 @@
 import axios from '../../axios-index';
 //import axios from "axios"
 
+var Minio = require('minio')
+
+var minioClient = new Minio.Client({
+    endPoint: '192.168.1.6',
+    port: 9000,
+    useSSL: false,
+    accessKey: 'minioadmin',
+    secretKey: 'minioadmin'
+});
+
 function getFileInfo(callback){
     axios.get('/file').then((response, err)=>{
         if(err){
@@ -14,6 +24,12 @@ function getFileInfo(callback){
 }
 
 function uploadFile(data, callback){
+    
+    minioClient.listBuckets(function(err, buckets) {
+        if (err) return console.log(err)
+        console.log('buckets :', buckets)
+      })
+
     axios.post("/api/file", data, {
         headers: {
             'content-type': 'multipart/form-data'
