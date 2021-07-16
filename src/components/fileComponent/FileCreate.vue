@@ -67,8 +67,8 @@ export default {
             
         },
 
-        deleteFile(id){
-             this.fileList = this.fileList.filter((file)=> file._id !== id)
+        deleteFile(fileName){
+             this.fileList = this.fileList.filter((file)=> file.name !== fileName)
         },
 
         dragOver(event){

@@ -1,4 +1,3 @@
-import axios from '../../axios-index';
 
 
 var Minio = require('minio')
@@ -12,17 +11,6 @@ var minioClient = new Minio.Client({
 });
 
 
-function getFileInfo(callback){
-    axios.get('/file').then((response, err)=>{
-        if(err){
-            throw err;
-        }   
-        if(response){
-           console.log(response.data)
-           callback(response.data, null)
-        }
-    }).catch((err)=> callback(null, err));
-}
 
 
 async function getAsByteArray(file) {
@@ -132,19 +120,13 @@ function uploadFile(files, callback){
     })
 }
 
-function deleteFile(file_id, callback){
-    axios.delete(`/api/file/${file_id}`)
-    .then((response, err)=>{
-        if(err){
-            throw err
+function deleteFile(fileName, callback){
+    minioClient.removeObject('abcd', fileName, function(err) {
+        if (err) {
+          return callback(null, err)
         }
-        if(response){
-            console.log(response.data);
-            callback(response.data, null)
-        }
-    })
-    .catch((err)=> callback(null, err))
-    
+        callback(fileName, null)
+      })
 }
 
-export {getFileInfo, uploadFile, deleteFile}
+export {uploadFile, deleteFile}

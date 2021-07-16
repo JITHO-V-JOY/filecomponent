@@ -35,7 +35,7 @@ export default {
                     alert(err);
                 }
                 if(response){
-                    this.$emit('delete', this.fileinfo.name)
+                    this.$emit('delete', response)
                 }
             })
         }
