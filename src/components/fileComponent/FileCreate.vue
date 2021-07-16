@@ -3,7 +3,7 @@
          <label for="dropzone" style="font-weight:bold">{{label}}</label>
 
          <b-overlay :show="isLoading" rounded="sm" variant="danger">
-         <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave">
+         <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:17px;"></i>
@@ -33,7 +33,6 @@ export default {
     },
     data(){
         return {
-            formdata:"",
             fileList: [],
             isLoading: false
         }
@@ -42,14 +41,6 @@ export default {
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            /*
-            this.formdata = new FormData();
-           
-            this.formdata.set("user", "123");
-            this.formdata.set("name", event.target.name)
-            console.log(event.target.files[0].name)
-            */
-            
             uploadFile(event.target.files, (fileinfo, err)=>{
                 if(err){
                     alert(err)
@@ -58,9 +49,6 @@ export default {
                     console.log("fileinfo", fileinfo)
                     this.fileList = fileinfo;
                     this.isLoading = !this.isLoading
-                    let parent =  event.target.parentElement
-                    parent.parentElement.style.background = "white";
-                    //this.formdata = null;
                     event.target.value= "";
                 }
             })
@@ -78,8 +66,11 @@ export default {
 
         dragLeave(event){
             event.preventDefault();
-            event.currentTarget.style.background = "white";
+            event.currentTarget.style.background = "wheat";
         },
+        onDrop(event){
+            event.currentTarget.style.background = "wheat";
+        }
   
     } 
 }
@@ -94,7 +85,7 @@ export default {
     padding: 2px;
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: "white";
+    background: wheat;
     border: rgb(136, 135, 135) dashed 2px;
 }
 .browse{

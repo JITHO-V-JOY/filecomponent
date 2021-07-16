@@ -1,50 +1,79 @@
 <template>
-    <div class="dropzone" @dragover="dragOver" @dragleave="dragLeave">
+    <div>
+         <label for="dropzone" style="font-weight:bold">{{label}}</label>
+
+         <b-overlay :show="isLoading" rounded="sm" variant="danger">
+         <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
-            <b-form-file class="form-file" v-model="arraylist" @change="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
+            <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:17px;"></i>
-            <span> Drag & Drop or <a href="" class="browse">click here</a></span>   
+            <span> Drag & Drop or <a href="" class="browse">click here</a></span>
+            
         </div>
-        <div>
-            <FileRender v-for="fileinfo in arraylist" :fileinfo="fileinfo" :key="fileinfo.id" :deleteoption="false"  />
-        </div>
+         <div>
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="false" />
+        </div>   
+       
                
+        </div>
+         </b-overlay>
     </div>
+   
        
 </template>
 
 <script>
-import {getFileInfo} from './services'
+import {updateFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
-    name:'FileCreate',
-    props:['arraylist', 'accept', 'multiple'],
+    name:'FileUpdate',
+    props:['arraylist', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     },
+    data(){
+        return {
+            isLoading: false
+        }
+    },
+    computed: {
+        fileList: function(){
+            return this.arraylist
+        }
+    },
     methods:{
-        onChange(){
-            getFileInfo((fileinfo, err)=>{
+        onChange(event){
+            event.preventDefault();
+             this.isLoading = !this.isLoading
+            updateFile(event.target.files, this.fileList, (fileinfo, err)=>{
                 if(err){
                     alert(err)
+                    event.target.value= "";
                 }else if(fileinfo){
-                    this.arraylist = fileinfo
+                    console.log("fileinfo", fileinfo)
+                    this.arraylist = fileinfo;
+                    this.isLoading = !this.isLoading
+                    event.target.value= "";
                 }
             })
+            
         },
+
         dragOver(event){
             event.preventDefault();
             event.currentTarget.style.background = "rgb(243, 217, 217)";
         },
+
         dragLeave(event){
             event.preventDefault();
-            if(!this.arraylist[0]){
-                event.currentTarget.style.background = "white";
-            }
+            event.currentTarget.style.background = "wheat";
         },
+        onDrop(event){
+            event.currentTarget.style.background = "wheat";
+        }
   
-    }
-    
+    },
+   
 }
 </script>
 
@@ -57,7 +86,7 @@ export default {
     padding: 2px;
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: "white";
+    background: wheat;
     border: rgb(136, 135, 135) dashed 2px;
 }
 .browse{

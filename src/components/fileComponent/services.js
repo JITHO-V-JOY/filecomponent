@@ -120,6 +120,59 @@ function uploadFile(files, callback){
     })
 }
 
+async function updateFile(newFiles, oldFiles, callback){
+    let errmsg = null;
+    let fileinfo = new Array();
+    let urls = {};
+
+    for(let i = 0; i < oldFiles.length; i++){
+        minioClient.removeObject('abcd', oldFiles[i].name, function(err, response){
+            if(err){
+                console.log("error", err)
+                errmsg = "error";
+            }
+            else{
+                console.log("response", response)
+            }
+        })
+       
+    }
+    if(errmsg){
+        return callback(null, errmsg);
+    }
+
+    for(let i = 0; i< newFiles.length; i++){
+        let filename = newFiles[i].name;
+        let arrayBuffer = await getAsByteArray(newFiles[i]);
+        let fileBuffer = Buffer.from(arrayBuffer);
+
+        let response = await minioClient.putObject('abcd', filename, fileBuffer)
+        if(response){
+            let presignedUrl = await minioClient.presignedUrl('GET', "abcd", filename, 24*60*60);
+            if(presignedUrl){
+                urls.name = filename;
+                urls.url = presignedUrl;
+                fileinfo.push(urls);
+                urls = {};
+                console.log(presignedUrl)
+            }else{
+                errmsg = "error"
+            }
+
+        }
+        else{
+            errmsg = "error"
+        }
+
+    }
+    if(errmsg){
+        callback(null, errmsg)
+    }else{
+        console.log("success callback", fileinfo)
+        callback(fileinfo, null)
+    }
+}
+
 function deleteFile(fileName, callback){
     minioClient.removeObject('abcd', fileName, function(err) {
         if (err) {
@@ -129,4 +182,29 @@ function deleteFile(fileName, callback){
       })
 }
 
-export {uploadFile, deleteFile}
+async function getIDProof(bucketName, fileNames, callback){
+    let fileinfo = new Array();
+    let urls = {};
+    let errmsg = null;
+    for(let i = 0; i < fileNames.length; i++){
+        let presignedUrl = await minioClient.presignedUrl('GET', bucketName, fileNames[i], 24*60*60)
+        if(presignedUrl){
+            urls.name = fileNames[i];
+            urls.url = presignedUrl;
+            fileinfo.push(urls);
+            urls = {};
+            console.log(presignedUrl)
+        }else{
+            errmsg = "error"
+        }
+    }
+    if(errmsg){
+        callback(null, errmsg)
+    }else{
+        console.log("success callback", fileinfo)
+        callback(fileinfo, null)
+    }
+    
+}
+
+export {getIDProof, uploadFile, updateFile, deleteFile}
