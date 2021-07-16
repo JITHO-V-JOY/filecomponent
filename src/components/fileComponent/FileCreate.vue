@@ -11,7 +11,7 @@
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.id" :deleteoption="true"  @delete="deleteFile"  />
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="true"  @delete="deleteFile"  />
         </div>   
        
                
@@ -41,27 +41,26 @@ export default {
     methods:{
         onChange(event){
             event.preventDefault();
+             this.isLoading = !this.isLoading
+            /*
             this.formdata = new FormData();
-            this.isLoading = !this.isLoading
+           
             this.formdata.set("user", "123");
             this.formdata.set("name", event.target.name)
-            
-            for(let i = 0; i < event.target.files.length; i++){
-                this.formdata.set("photo"+String(i), event.target.files[i])
-                
-            }
             console.log(event.target.files[0].name)
-            uploadFile(this.formdata, (fileinfo, err)=>{
+            */
+            
+            uploadFile(event.target.files, (fileinfo, err)=>{
                 if(err){
                     alert(err)
-                    this.formdata = null;
+                    event.target.value= "";
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)
-                    this.fileList = fileinfo.data;
+                    this.fileList = fileinfo;
                     this.isLoading = !this.isLoading
                     let parent =  event.target.parentElement
                     parent.parentElement.style.background = "white";
-                    this.formdata = null;
+                    //this.formdata = null;
                     event.target.value= "";
                 }
             })
