@@ -8,7 +8,7 @@
                 <FileComponent mode="update"  :arraylist="arraylist" :multiple="true" :accept="accept" label="Image" />
             </div>
               <div class="col-12 col-md-4">
-                <FileComponent mode="create" :arraylist="arraylist"  :multiple="true"  :accept="accept" label="Signature"/>
+                <FileComponent mode="read" :arraylist="arraylist"  :multiple="true"  :accept="accept" label="Signature"/>
             </div>
             
            
@@ -24,7 +24,7 @@ export default {
         return{
             mode:"create",
             arraylist:[],
-            IDProof:["file_upload (1).png", "grace.png"],
+            IDProof:["id1.jpg", "id2.png"],
             accept:[".pdf", ".png"]
         }
     },

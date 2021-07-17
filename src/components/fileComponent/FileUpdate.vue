@@ -86,7 +86,7 @@ export default {
     padding: 2px;
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: wheat;
+    background: whitesmoke;
     border: rgb(136, 135, 135) dashed 2px;
 }
 .browse{

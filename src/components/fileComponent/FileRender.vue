@@ -4,7 +4,7 @@
                 <span @click="showPreview">{{fileinfo.name}}</span>
                     <i v-if="deleteoption" class="fas fa-times" @click="onDelete"></i>
                     </div>
-                    <img v-if="preview" :src="fileinfo.url" alt="" width="100%" height="200px" >
+                    <img v-if="preview" :src="fileinfo.url" alt="" width="100%" height="250px" >
                 </div>
                
 
@@ -49,7 +49,8 @@ export default {
         padding: 2px;
         margin: 1px;
         justify-content: space-between;
-        background: #f0f0f0;
+        background:#df4759;
+        color: white;
         width:100%;
         align-items: center;
     }

@@ -5,6 +5,8 @@
 <script>
 import FileCreate from './FileCreate.vue'
 import FileUpdate from './FileUpdate.vue'
+import FileRead from './FileRead.vue'
+
 export default {
     name:'FileComponent',
     props:['mode', 'arraylist', 'multiple', 'accept', 'label'],
@@ -16,8 +18,10 @@ export default {
         fileMode: function(){
             if(this.mode === "create"){
                 return FileCreate
-            }else{
+            }else if(this.mode === "update"){
                 return FileUpdate
+            }else{
+                return FileRead
             }
             
         }
