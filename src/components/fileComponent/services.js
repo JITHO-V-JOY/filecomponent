@@ -44,29 +44,21 @@ function uploadFile(files, callback){
                 if(err){
                     console.log("make err", err)
                 }else{
-
                     let errmsg = null;
-                    let urls = new Array();
-                    let fileinfo = new Object();
+                    let fileinfo = new Array();
 
                     for(let i = 0; i< files.length; i++){
                         let filename = files[i].name;
                         let arrayBuffer = await getAsByteArray(files[i]);
                         let fileBuffer = Buffer.from(arrayBuffer);
-    
+
                         minioClient.putObject('abcd', filename, fileBuffer,  function(err, etag) {
                             if(err) {
                                 errmsg = err
                             }
                             else if(etag){
-                             console.log("Success", etag);
-                             minioClient.presignedUrl('GET', 'abcd', filename, 24*60*60, function(err, presignedUrl) {
-                                if (err) return console.log(err)
-                                console.log(presignedUrl)
-                                fileinfo.name = filename
-                                fileinfo.url = presignedUrl
-                                urls.push(fileinfo)
-                              })
+                             console.log("Success", etag)
+                             fileinfo.push(filename)
                             }
                         })
                     
@@ -75,7 +67,7 @@ function uploadFile(files, callback){
                     if(errmsg){
                         callback(null, errmsg)
                     }else{
-                        callback(urls, null)
+                        callback(fileinfo, null)
                     }
                 }
 
@@ -83,8 +75,7 @@ function uploadFile(files, callback){
         }else{
             console.log("hello", exists)
                 let errmsg = null;
-                let urls = new Array();
-                let fileinfo = {};
+                let fileinfo = new Array();
 
                 for(let i = 0; i< files.length; i++){
                     let filename = files[i].name;
@@ -97,15 +88,7 @@ function uploadFile(files, callback){
                         }
                         else if(etag){
                          console.log("Success", etag)
-
-                         minioClient.presignedUrl('GET', 'abcd', filename, 24*60*60, function(err, presignedUrl) {
-                            if (err) return console.log(err)
-                            fileinfo.name = filename
-                            fileinfo.url = presignedUrl
-                            console.log("filename", fileinfo)
-                            urls.push(fileinfo)
-                            fileinfo = {}
-                          })
+                         fileinfo.push(filename)
                         }
                     })
                 
@@ -114,7 +97,7 @@ function uploadFile(files, callback){
                     callback(null, errmsg)
                 }else{
                     console.log("success callback")
-                    callback(urls, null)
+                    callback(fileinfo, null)
                 }
         }
     })
@@ -123,10 +106,9 @@ function uploadFile(files, callback){
 async function updateFile(newFiles, oldFiles, callback){
     let errmsg = null;
     let fileinfo = new Array();
-    let urls = {};
 
     for(let i = 0; i < oldFiles.length; i++){
-        minioClient.removeObject('abcd', oldFiles[i].name, function(err, response){
+        minioClient.removeObject('abcd', oldFiles[i], function(err, response){
             if(err){
                 console.log("error", err)
                 errmsg = "error";
@@ -146,24 +128,15 @@ async function updateFile(newFiles, oldFiles, callback){
         let arrayBuffer = await getAsByteArray(newFiles[i]);
         let fileBuffer = Buffer.from(arrayBuffer);
 
-        let response = await minioClient.putObject('abcd', filename, fileBuffer)
-        if(response){
-            let presignedUrl = await minioClient.presignedUrl('GET', "abcd", filename, 24*60*60);
-            if(presignedUrl){
-                urls.name = filename;
-                urls.url = presignedUrl;
-                fileinfo.push(urls);
-                urls = {};
-                console.log(presignedUrl)
-            }else{
-                errmsg = "error"
+        minioClient.putObject('abcd', filename, fileBuffer,  function(err, etag) {
+            if(err) {
+                errmsg = err
             }
-
-        }
-        else{
-            errmsg = "error"
-        }
-
+            else if(etag){
+             console.log("Success", etag)
+             fileinfo.push(filename)
+            }
+        })
     }
     if(errmsg){
         callback(null, errmsg)
@@ -182,29 +155,15 @@ function deleteFile(fileName, callback){
       })
 }
 
-async function getIDProof(bucketName, fileNames, callback){
-    let fileinfo = new Array();
-    let urls = {};
-    let errmsg = null;
-    for(let i = 0; i < fileNames.length; i++){
-        let presignedUrl = await minioClient.presignedUrl('GET', bucketName, fileNames[i], 24*60*60)
-        if(presignedUrl){
-            urls.name = fileNames[i];
-            urls.url = presignedUrl;
-            fileinfo.push(urls);
-            urls = {};
-            console.log(presignedUrl)
-        }else{
-            errmsg = "error"
+function getUrl(bucketName, fileName, callback){
+    minioClient.presignedUrl("GET", bucketName, fileName, 24 * 60 * 60, function(err, presignedUrl){
+        if(err){
+            callback(null, err);
         }
-    }
-    if(errmsg){
-        callback(null, errmsg)
-    }else{
-        console.log("success callback", fileinfo)
-        callback(fileinfo, null)
-    }
-    
+        else if(presignedUrl){
+            callback(presignedUrl, null);
+        }
+    })
 }
 
-export {getIDProof, uploadFile, updateFile, deleteFile}
+export {uploadFile, updateFile, deleteFile, getUrl}

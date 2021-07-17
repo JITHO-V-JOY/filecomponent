@@ -1,36 +1,67 @@
 <template>
         <div >
             <div class="file-info">
-                <span @click="showPreview">{{fileinfo.name}}</span>
+                <span @click="showPreview">{{fileinfo}}</span>
                     <i v-if="deleteoption" class="fas fa-times" @click="onDelete"></i>
-                    </div>
-                    <img v-if="preview" :src="fileinfo.url" alt="" width="100%" height="250px" >
-                </div>
+            </div>
+            <b-overlay :show="isLoading" rounded="sm" variant="danger">
+                <img v-if="preview" :src="fileUrl" alt="" width="100%" height="250px" >
+            </b-overlay>
+        </div>
                
 
 </template>
 <script>
 
-import {deleteFile} from "./services"
+import {deleteFile, getUrl} from "./services"
+
 export default {
     name:"FileRender",
     props:["fileinfo", "deleteoption"],
     data(){
         return{
             preview: false,
+            urlError: false,
+            fileUrl:"",
+            isLoading: false
         }
     },
     
     methods:{
         showPreview(){
-            if(this.fileinfo.name.match(/.pdf/)){
-                window.open(this.fileinfo.url)
+             if(this.fileinfo.match(/.pdf/)){
+                getUrl("abcd", this.fileinfo, (response, err)=>{
+                    if(err){
+                        this.urlError = !this.urlError
+                    }else if(response){
+                        this.fileUrl = response;
+                        window.open(this.fileUrl)
+                     }
+                })
             }else{
-                this.preview = !this.preview
+                if(this.preview){
+                    this.preview = !this.preview
+                }else{
+                     this.preview = !this.preview;
+                     this.isLoading = !this.isLoading;
+                     getUrl("abcd", this.fileinfo, (response, err)=>{
+                            if(err){
+                                this.urlError = !this.urlError
+                            }else if(response){
+                                this.fileUrl = response;
+                                this.isLoading = !this.isLoading
+                        }
+                    })
+
+                }
+                
             }
+
+            
+          
         },
         onDelete(){
-            deleteFile(this.fileinfo.name, (response, err)=>{
+            deleteFile(this.fileinfo, (response, err)=>{
                 if(err){
                     alert(err);
                 }

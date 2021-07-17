@@ -27,18 +27,13 @@ import {updateFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileUpdate',
-    props:['arraylist', 'accept', 'multiple', 'label'],
+    props:['fileList', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     },
     data(){
         return {
             isLoading: false
-        }
-    },
-    computed: {
-        fileList: function(){
-            return this.arraylist
         }
     },
     methods:{
@@ -51,7 +46,7 @@ export default {
                     event.target.value= "";
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)
-                    this.arraylist = fileinfo;
+                    this.fileList = fileinfo;
                     this.isLoading = !this.isLoading
                     event.target.value= "";
                 }

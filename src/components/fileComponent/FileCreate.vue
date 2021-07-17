@@ -11,7 +11,7 @@
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="true"  @delete="deleteFile"  />
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="true"  @delete="deleteFile"  />
         </div>   
        
                
@@ -27,7 +27,7 @@ import {uploadFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileCreate',
-    props:['arraylist', 'accept', 'multiple', 'label'],
+    props:['accept', 'multiple', 'label'],
     components:{
         FileRender
     },
@@ -56,7 +56,7 @@ export default {
         },
 
         deleteFile(fileName){
-             this.fileList = this.fileList.filter((file)=> file.name !== fileName)
+             this.fileList = this.fileList.filter((file)=> file !== fileName)
         },
 
         dragOver(event){

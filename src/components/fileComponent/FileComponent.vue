@@ -1,5 +1,5 @@
 <template>
-        <component :is="fileMode" :arraylist="arraylist" :accept="accept" :multiple="multiple"  :label="label"/>
+        <component :is="fileMode" :fileList="fileList" :accept="accept" :multiple="multiple"  :label="label"/>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ import FileRead from './FileRead.vue'
 
 export default {
     name:'FileComponent',
-    props:['mode', 'arraylist', 'multiple', 'accept', 'label'],
+    props:['mode', 'fileList', 'multiple', 'accept', 'label'],
     components:{
         FileCreate ,
         FileUpdate
