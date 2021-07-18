@@ -29,13 +29,13 @@ export default {
 .dropzone{
     display: flex;
     position: relative;
+    padding: 3px;
     flex-direction: column;
     justify-content: center; 
-    padding: 2px;
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: whitesmoke;
-    border: rgb(136, 135, 135) solid 1px;
+    background: rgb(228, 228, 228);
+    border: rgb(235, 14, 14) solid 1px;
 }
 .browse{
     border: none;

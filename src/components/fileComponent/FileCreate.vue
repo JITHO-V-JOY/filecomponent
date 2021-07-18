@@ -6,7 +6,7 @@
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
-            <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:17px;"></i>
+            <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
             <span> Drag & Drop or <a href="" class="browse">click here</a></span>
             
         </div>
@@ -81,12 +81,12 @@ export default {
     display: flex;
     position: relative;
     flex-direction: column;
+    padding: 3px;
     justify-content: center; 
-    padding: 2px;
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: whitesmoke;
-    border: rgb(136, 135, 135) dashed 2px;
+    background: rgb(228, 228, 228);
+    border: rgb(235, 14, 14) dashed 2px;
 }
 .browse{
     border: none;
@@ -99,7 +99,7 @@ export default {
         height: 45px;
         opacity: 0;
         position: absolute;
-          cursor: pointer;  
+        cursor: pointer;  
 }
 .file-input{
     display: flex;
