@@ -52,7 +52,16 @@ function uploadFile(bucketName, files, callback){
                         let filename = files[i].name;
                         let arrayBuffer = await getAsByteArray(files[i]);
                         let fileBuffer = Buffer.from(arrayBuffer);
-
+                        try{
+                            let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                            console.log("response", response)
+                            fileinfo.push(filename);
+                        }
+                        catch(err){
+                            console.log("error", err);
+                            errmsg = err;
+                        }
+                        /*
                         minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
                             if(err) {
                                 errmsg = err
@@ -62,13 +71,14 @@ function uploadFile(bucketName, files, callback){
                              fileinfo.push(filename)
                             }
                         })
+                        */
                     
                     }
 
                     if(errmsg){
-                        callback(null, "failed to upload try again")
+                        return callback(null, "failed to upload try again")
                     }else{
-                        callback(fileinfo, null)
+                        return callback(fileinfo, null)
                     }
                 }
 
@@ -83,6 +93,16 @@ function uploadFile(bucketName, files, callback){
                     let arrayBuffer = await getAsByteArray(files[i]);
                     let fileBuffer = Buffer.from(arrayBuffer);
 
+                    try{
+                        let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                        console.log("response", response)
+                        fileinfo.push(filename);
+                    }
+                    catch(err){
+                        console.log("error", err);
+                        errmsg = err;
+                }
+                    /*
                     minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
                         if(err) {
                             errmsg = err
@@ -92,13 +112,14 @@ function uploadFile(bucketName, files, callback){
                          fileinfo.push(filename)
                         }
                     })
+                    */
                 
                 }
                 if(errmsg){
-                    callback(null, errmsg)
+                    return callback(null, errmsg)
                 }else{
                     console.log("success callback")
-                    callback(fileinfo, null)
+                    return callback(fileinfo, null)
                 }
         }
     })
@@ -170,12 +191,6 @@ async function updateFile(bucketName, newFiles, oldFiles, callback){
     }
 }
         
-    
-    
-   
-    
-   
-
 function deleteFile(bucketName, fileName, callback){
     minioClient.removeObject(bucketName, fileName, function(err) {
         if (err) {
