@@ -29,7 +29,7 @@ export default {
     methods:{
         showPreview(){
              if(this.fileinfo.match(/.pdf/)){
-                getUrl("abcd", this.fileinfo, (response, err)=>{
+                getUrl("user1", this.fileinfo, (response, err)=>{
                     if(err){
                         alert(err)
                     }else if(response){
@@ -43,7 +43,7 @@ export default {
                 }else{
                      this.preview = !this.preview;
                      this.isLoading = !this.isLoading;
-                     getUrl("abcd", this.fileinfo, (response, err)=>{
+                     getUrl("user1", this.fileinfo, (response, err)=>{
                             if(err){
                                 alert(err)
                             }else if(response){
@@ -60,7 +60,7 @@ export default {
           
         },
         onDelete(){
-            deleteFile(this.fileinfo, (response, err)=>{
+            deleteFile("user1", this.fileinfo, (response, err)=>{
                 if(err){
                     alert(err);
                 }

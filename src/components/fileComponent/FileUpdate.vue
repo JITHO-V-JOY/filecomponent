@@ -40,9 +40,10 @@ export default {
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            updateFile(event.target.files, this.fileList, (fileinfo, err)=>{
+            updateFile("user1", event.target.files, this.fileList, (fileinfo, err)=>{
                 if(err){
-                    alert(err)
+                    console.log("Hello")
+                    alert("hello");
                     event.target.value= "";
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)

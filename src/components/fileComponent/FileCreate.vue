@@ -41,7 +41,7 @@ export default {
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            uploadFile(event.target.files, (fileinfo, err)=>{
+            uploadFile("user1", event.target.files, (fileinfo, err)=>{
                 if(err){
                     alert(err)
                     event.target.value= "";

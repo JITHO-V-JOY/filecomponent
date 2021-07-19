@@ -32,17 +32,18 @@ async function getAsByteArray(file) {
   }
   
 
-function uploadFile(files, callback){
+function uploadFile(bucketName, files, callback){
 
-     minioClient.bucketExists('abcd', async function(err, exists){
+     minioClient.bucketExists(bucketName, async function(err, exists){
         if(err){
             console.log("exist err", err)
-            return callback(null, "hello")
+            return callback(null, "failed to upload try again")
         }
         else if(!exists){
-            minioClient.makeBucket('abcd', 'india', async function(err) {
+            minioClient.makeBucket(bucketName, 'india', async function(err) {
                 if(err){
                     console.log("make err", err)
+                    callback(null, "failed to upload try again")
                 }else{
                     let errmsg = null;
                     let fileinfo = new Array();
@@ -52,7 +53,7 @@ function uploadFile(files, callback){
                         let arrayBuffer = await getAsByteArray(files[i]);
                         let fileBuffer = Buffer.from(arrayBuffer);
 
-                        minioClient.putObject('abcd', filename, fileBuffer,  function(err, etag) {
+                        minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
                             if(err) {
                                 errmsg = err
                             }
@@ -65,7 +66,7 @@ function uploadFile(files, callback){
                     }
 
                     if(errmsg){
-                        callback(null, errmsg)
+                        callback(null, "failed to upload try again")
                     }else{
                         callback(fileinfo, null)
                     }
@@ -82,7 +83,7 @@ function uploadFile(files, callback){
                     let arrayBuffer = await getAsByteArray(files[i]);
                     let fileBuffer = Buffer.from(arrayBuffer);
 
-                    minioClient.putObject('abcd', filename, fileBuffer,  function(err, etag) {
+                    minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
                         if(err) {
                             errmsg = err
                         }
@@ -103,51 +104,80 @@ function uploadFile(files, callback){
     })
 }
 
-async function updateFile(newFiles, oldFiles, callback){
+async function updateFile(bucketName, newFiles, oldFiles, callback){
     let errmsg = null;
     let fileinfo = new Array();
 
     for(let i = 0; i < oldFiles.length; i++){
-        minioClient.removeObject('abcd', oldFiles[i], function(err, response){
-            if(err){
-                console.log("error", err)
-                errmsg = "error";
-            }
-            else{
+        console.log(i)
+        try{
+            let response = await minioClient.removeObject(bucketName, oldFiles[i])
+            console.log("hello", response)
+        }
+        catch(err){
+            errmsg = err;
+            console.log("error", err)
+        }
+        /*
+        .then((response)=>{
                 console.log("response", response)
-            }
+                tracki = i;
+        }).catch((err)=>{
+            errmsg = err;
+            console.log("error aanu", err)
+            tracki = i;
         })
+        */
        
     }
+       
     if(errmsg){
-        return callback(null, errmsg);
-    }
-
-    for(let i = 0; i< newFiles.length; i++){
-        let filename = newFiles[i].name;
-        let arrayBuffer = await getAsByteArray(newFiles[i]);
-        let fileBuffer = Buffer.from(arrayBuffer);
-
-        minioClient.putObject('abcd', filename, fileBuffer,  function(err, etag) {
-            if(err) {
-                errmsg = err
-            }
-            else if(etag){
-             console.log("Success", etag)
-             fileinfo.push(filename)
-            }
-        })
-    }
-    if(errmsg){
-        callback(null, errmsg)
+        callback(null, errmsg);
     }else{
-        console.log("success callback", fileinfo)
-        callback(fileinfo, null)
+        for(let i = 0; i< newFiles.length; i++){
+            let filename = newFiles[i].name;
+            let arrayBuffer = await getAsByteArray(newFiles[i]);
+            let fileBuffer = Buffer.from(arrayBuffer);
+            
+            try{
+                let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                console.log("response", response)
+                fileinfo.push(filename);
+            }
+            catch(err){
+                console.log("error", err);
+                errmsg = err;
+            }
+            /*
+            .then((objectInfo)=> {
+            console.log("Success", objectInfo)
+                         fileinfo.push(filename);
+                         tracki = i;
+                    }).catch((err)=>{
+                        errmsg = err
+                        console.log("error", err)
+                        tracki = i;
+                    })
+                    */
+        }
+            
+        if(errmsg){
+            return callback(null, errmsg);
+        }else{
+            console.log("no error")
+            return callback(fileinfo, null)
+        }
     }
 }
+        
+    
+    
+   
+    
+   
 
-function deleteFile(fileName, callback){
-    minioClient.removeObject('abcd', fileName, function(err) {
+function deleteFile(bucketName, fileName, callback){
+    minioClient.removeObject(bucketName, fileName, function(err) {
         if (err) {
           return callback(null, err)
         }
