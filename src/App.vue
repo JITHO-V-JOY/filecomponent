@@ -1,22 +1,33 @@
 <template>
   <div id="app">
-    <Header />
-    <Home/>
+    <div id="nav">
+      <router-link to="/">Create Mode</router-link> |
+      <router-link to="/update_mode">Update Mode</router-link> |
+      <router-link to="/read_mode">Read Mode</router-link>
+
+    </div>
+    <router-view/>
   </div>
 </template>
 
-<script>
-import Header from './components/header/Header.vue';
-import Home from './components/home/Home.vue'
-export default {
-  name: 'App',
-  components:{
-    Header,
-    Home
-  }
-}
-</script>
-
 <style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
 
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>
