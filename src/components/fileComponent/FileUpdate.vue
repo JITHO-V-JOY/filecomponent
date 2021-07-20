@@ -19,7 +19,7 @@
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="false" />
+            <FileRender v-for="fileinfo in files" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="false" />
         </div>   
        
                
@@ -41,21 +41,22 @@ export default {
     },
     data(){
         return {
-            isLoading: false
+            files : this.fileList,
+            isLoading: false,
         }
     },
     methods:{
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            updateFile("user1", event.target.files, this.fileList, (fileinfo, err)=>{
+            updateFile("user1", this.multiple, event.target.files, this.files, (fileinfo, err)=>{
                 if(err){
                     console.log("Hello")
                     alert("hello");
                     event.target.value= "";
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)
-                    this.fileList = fileinfo;
+                    this.files = fileinfo
                     this.isLoading = !this.isLoading
                     event.target.value= "";
                 }

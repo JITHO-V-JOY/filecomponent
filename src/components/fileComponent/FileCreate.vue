@@ -49,7 +49,7 @@ export default {
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            uploadFile("user1", event.target.files, (fileinfo, err)=>{
+            uploadFile("user1", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
                 if(err){
                     alert(err)
                     event.target.value= "";
@@ -69,7 +69,7 @@ export default {
 
         dragOver(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(243, 217, 217)";
+            event.currentTarget.style.background = "rgb(231, 201, 145)";
         },
 
         dragLeave(event){
@@ -93,7 +93,7 @@ export default {
     justify-content: center; 
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: rgb(228, 228, 228);
+    background: wheat;
     border: rgb(235, 14, 14) dashed 2px;
 }
 .browse{

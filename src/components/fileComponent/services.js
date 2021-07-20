@@ -32,7 +32,7 @@ async function getAsByteArray(file) {
   }
   
 
-function uploadFile(bucketName, files, callback){
+function uploadFile(bucketName, multiple, files, existingFiles, callback){
 
      minioClient.bucketExists(bucketName, async function(err, exists){
         if(err){
@@ -45,8 +45,144 @@ function uploadFile(bucketName, files, callback){
                     console.log("make err", err)
                     callback(null, "failed to upload try again")
                 }else{
+                    if(!multiple){
+                        let errmsg = null;
+                        let fileinfo = new Array();
+                        console.log("not multiple")
+
+                        for(let i = 0; i < existingFiles.length; i++){
+                            console.log(i)
+                            try{
+                                let response = await minioClient.removeObject(bucketName, existingFiles[i])
+                                console.log("hello", response)
+                            }
+                            catch(err){
+                                errmsg = err;
+                                console.log("error", err)
+                            }
+                            /*
+                            .then((response)=>{
+                                    console.log("response", response)
+                                    tracki = i;
+                            }).catch((err)=>{
+                                errmsg = err;
+                                console.log("error aanu", err)
+                                tracki = i;
+                            })
+                            */
+                        
+                        }
+                        
+                        if(errmsg){
+                            callback(null, errmsg);
+                        }else{
+
+                            for(let i = 0; i< files.length; i++){
+                                let filename = files[i].name;
+                                let arrayBuffer = await getAsByteArray(files[i]);
+                                let fileBuffer = Buffer.from(arrayBuffer);
+                                try{
+                                    let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                                    console.log("response", response)
+                                    fileinfo.push(filename);
+                                }
+                                catch(err){
+                                    console.log("error", err);
+                                    errmsg = err;
+                                }
+                                /*
+                                minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
+                                    if(err) {
+                                        errmsg = err
+                                    }
+                                    else if(etag){
+                                    console.log("Success", etag)
+                                    fileinfo.push(filename)
+                                    }
+                                })
+                                */
+                            
+                            }
+
+                            if(errmsg){
+                                return callback(null, "failed to upload try again")
+                            }else{
+                                return callback(fileinfo, null)
+                            }
+                        }
+                }else{
+                    console.log("multiple", multiple)
                     let errmsg = null;
-                    let fileinfo = new Array();
+                    for(let i = 0; i< files.length; i++){
+                        let filename = files[i].name;
+                        let arrayBuffer = await getAsByteArray(files[i]);
+                        let fileBuffer = Buffer.from(arrayBuffer);
+                        try{
+                            let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                            console.log("response", response)
+                            existingFiles.push(filename);
+                        }
+                        catch(err){
+                            console.log("error", err);
+                            errmsg = err;
+                        }
+                        /*
+                        minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
+                            if(err) {
+                                errmsg = err
+                            }
+                            else if(etag){
+                            console.log("Success", etag)
+                            fileinfo.push(filename)
+                            }
+                        })
+                        */
+                    
+                    }
+
+                    if(errmsg){
+                        return callback(null, "failed to upload try again")
+                    }else{
+                        return callback(existingFiles, null)
+                    }
+                }
+                
+                }
+
+            })
+        }else{
+            console.log("hello", exists)
+            if(!multiple){
+                let errmsg = null;
+                let fileinfo = new Array();
+                console.log("not multiple")
+
+                for(let i = 0; i < existingFiles.length; i++){
+                    console.log(i)
+                    try{
+                        let response = await minioClient.removeObject(bucketName, existingFiles[i])
+                        console.log("hello", response)
+                    }
+                    catch(err){
+                        errmsg = err;
+                        console.log("error", err)
+                    }
+                    /*
+                    .then((response)=>{
+                            console.log("response", response)
+                            tracki = i;
+                    }).catch((err)=>{
+                        errmsg = err;
+                        console.log("error aanu", err)
+                        tracki = i;
+                    })
+                    */
+                
+                }
+                
+                if(errmsg){
+                    callback(null, errmsg);
+                }else{
 
                     for(let i = 0; i< files.length; i++){
                         let filename = files[i].name;
@@ -67,8 +203,8 @@ function uploadFile(bucketName, files, callback){
                                 errmsg = err
                             }
                             else if(etag){
-                             console.log("Success", etag)
-                             fileinfo.push(filename)
+                            console.log("Success", etag)
+                            fileinfo.push(filename)
                             }
                         })
                         */
@@ -81,80 +217,117 @@ function uploadFile(bucketName, files, callback){
                         return callback(fileinfo, null)
                     }
                 }
-
-            })
         }else{
-            console.log("hello", exists)
-                let errmsg = null;
-                let fileinfo = new Array();
-
-                for(let i = 0; i< files.length; i++){
-                    let filename = files[i].name;
-                    let arrayBuffer = await getAsByteArray(files[i]);
-                    let fileBuffer = Buffer.from(arrayBuffer);
-
-                    try{
-                        let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
-                        console.log("response", response)
-                        fileinfo.push(filename);
+            console.log("multiple", multiple)
+            let errmsg = null;
+            for(let i = 0; i< files.length; i++){
+                let filename = files[i].name;
+                let arrayBuffer = await getAsByteArray(files[i]);
+                let fileBuffer = Buffer.from(arrayBuffer);
+                try{
+                    let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                    console.log("response", response)
+                    existingFiles.push(filename);
+                }
+                catch(err){
+                    console.log("error", err);
+                    errmsg = err;
+                }
+                /*
+                minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
+                    if(err) {
+                        errmsg = err
                     }
-                    catch(err){
-                        console.log("error", err);
-                        errmsg = err;
-                }
-                    /*
-                    minioClient.putObject(bucketName, filename, fileBuffer,  function(err, etag) {
-                        if(err) {
-                            errmsg = err
-                        }
-                        else if(etag){
-                         console.log("Success", etag)
-                         fileinfo.push(filename)
-                        }
-                    })
-                    */
-                
-                }
-                if(errmsg){
-                    return callback(null, errmsg)
-                }else{
-                    console.log("success callback")
-                    return callback(fileinfo, null)
-                }
+                    else if(etag){
+                    console.log("Success", etag)
+                    fileinfo.push(filename)
+                    }
+                })
+                */
+            
+            }
+
+            if(errmsg){
+                return callback(null, "failed to upload try again")
+            }else{
+                return callback(existingFiles, null)
+            }
         }
+        
+        }
+        
     })
 }
 
-async function updateFile(bucketName, newFiles, oldFiles, callback){
+async function updateFile(bucketName, multiple, newFiles, oldFiles, callback){
     let errmsg = null;
     let fileinfo = new Array();
 
-    for(let i = 0; i < oldFiles.length; i++){
-        console.log(i)
-        try{
-            let response = await minioClient.removeObject(bucketName, oldFiles[i])
-            console.log("hello", response)
-        }
-        catch(err){
-            errmsg = err;
-            console.log("error", err)
-        }
-        /*
-        .then((response)=>{
-                console.log("response", response)
+    if(!multiple){
+        console.log("not multiple")
+        for(let i = 0; i < oldFiles.length; i++){
+            console.log(i)
+            try{
+                let response = await minioClient.removeObject(bucketName, oldFiles[i])
+                console.log("hello", response)
+            }
+            catch(err){
+                errmsg = err;
+                console.log("error", err)
+            }
+            /*
+            .then((response)=>{
+                    console.log("response", response)
+                    tracki = i;
+            }).catch((err)=>{
+                errmsg = err;
+                console.log("error aanu", err)
                 tracki = i;
-        }).catch((err)=>{
-            errmsg = err;
-            console.log("error aanu", err)
-            tracki = i;
-        })
-        */
-       
-    }
-       
-    if(errmsg){
-        callback(null, errmsg);
+            })
+            */
+        
+        }
+        
+        if(errmsg){
+            callback(null, errmsg);
+        }else{
+            for(let i = 0; i< newFiles.length; i++){
+                let filename = newFiles[i].name;
+                let arrayBuffer = await getAsByteArray(newFiles[i]);
+                let fileBuffer = Buffer.from(arrayBuffer);
+                
+                try{
+                    let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
+                    console.log("response", response)
+                    fileinfo.push(filename);
+                }
+                catch(err){
+                    console.log("error", err);
+                    errmsg = err;
+                }
+                /*
+                .then((objectInfo)=> {
+                console.log("Success", objectInfo)
+                            fileinfo.push(filename);
+                            tracki = i;
+                        }).catch((err)=>{
+                            errmsg = err
+                            console.log("error", err)
+                            tracki = i;
+                        })
+                        */
+            }
+                
+            if(errmsg){
+                return callback(null, errmsg);
+            }else{
+                console.log("no error")
+                return callback(fileinfo, null)
+            }
+        }
     }else{
+
+        console.log("multiple..", multiple)
         for(let i = 0; i< newFiles.length; i++){
             let filename = newFiles[i].name;
             let arrayBuffer = await getAsByteArray(newFiles[i]);
@@ -163,7 +336,7 @@ async function updateFile(bucketName, newFiles, oldFiles, callback){
             try{
                 let response = await  minioClient.putObject(bucketName, filename, fileBuffer)
                 console.log("response", response)
-                fileinfo.push(filename);
+                oldFiles.push(filename);
             }
             catch(err){
                 console.log("error", err);
@@ -172,8 +345,8 @@ async function updateFile(bucketName, newFiles, oldFiles, callback){
             /*
             .then((objectInfo)=> {
             console.log("Success", objectInfo)
-                         fileinfo.push(filename);
-                         tracki = i;
+                        fileinfo.push(filename);
+                        tracki = i;
                     }).catch((err)=>{
                         errmsg = err
                         console.log("error", err)
@@ -186,7 +359,7 @@ async function updateFile(bucketName, newFiles, oldFiles, callback){
             return callback(null, errmsg);
         }else{
             console.log("no error")
-            return callback(fileinfo, null)
+            return callback(oldFiles, null)
         }
     }
 }
