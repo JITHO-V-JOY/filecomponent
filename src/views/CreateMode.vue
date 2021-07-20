@@ -2,7 +2,7 @@
     <div class="container" style="margin-top:10px;">
         <div class="row">
             <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" ref="idProof" :multiple="false"  :accept="accept" label="ID Proof" />
+                <FileComponent :mode="mode" ref="idProof" :multiple="true"  :accept="accept" label="ID Proof" />
             </div>
               <div class="col-12 col-md-4">
                 <FileComponent :mode="mode" ref="image" :multiple="true" :accept="accept" label="Image" />

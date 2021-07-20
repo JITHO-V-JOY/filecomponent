@@ -26,6 +26,7 @@ export default {
             
         }
     },
+    
     methods:{
         getFiles(){
             return this.$refs.file_widget.fileList;

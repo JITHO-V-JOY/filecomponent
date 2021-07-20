@@ -2,13 +2,13 @@
     <div class="container" style="margin-top:10px;">
         <div class="row">
             <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" :fileList="idProof" :multiple="true"  :accept="accept" label="ID Proof" />
+                <FileComponent :mode="mode" ref="idProof" :fileList="idProof"  :multiple="true"  :accept="accept" label="ID Proof" />
             </div>
               <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" :fileList="image"  :multiple="true" :accept="accept" label="Image" />
+                <FileComponent :mode="mode" ref="image" :fileList="image"  :multiple="true" :accept="accept" label="Image" />
             </div>
               <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" :fileList="signature" :multiple="false"  :accept="accept" label="Signature"/>
+                <FileComponent :mode="mode" ref="signature" :fileList="signature" :multiple="false"  :accept="accept" label="Signature"/>
             </div>
             
            
@@ -21,6 +21,7 @@ export default {
     name:'Home',
     data(){
         return{
+            isMounted: false,
             mode:"update",
             idProof:["id1.jpg", "id2.png"],
             image:["img1.jpg", "img2.jpg"],
@@ -28,9 +29,49 @@ export default {
             accept:[".pdf", ".png"]
         }
     },
+    computed:{
+       getIdProof: function(){
+             if(!this.isMounted)
+                return [];
+            else{
+                return this.$refs.idProof.getFiles();
+            }
+       },
+       getImage: function(){
+            if(!this.isMounted)
+                return [];
+            else{
+                return this.$refs.image.getFiles();
+            }
+       },
+       getSignature: function(){
+            if(!this.isMounted)
+                return [];
+            else{
+                return this.$refs.signature.getFiles();
+            }
+       }
+    },
+    watch:{
+        getIdProof(newFiles){
+            this.idProof = newFiles
+        },
+        getImage(newFiles){
+            this.image  = newFiles
+        },
+         getSignature(newFiles){
+            this.signature  = newFiles
+        }
+    },
     components:{
         FileComponent
-    }
+    },
+    mounted(){
+    /**
+     * implemented for computed property, unless {{this.$refs}} will not work
+     */
+    this.isMounted = true;
+  }
 }
 </script>
 

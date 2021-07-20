@@ -15,7 +15,7 @@
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
-            <span> Drag & Drop or <a href="" class="browse">click here</a></span>
+            <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
             
         </div>
          <div>

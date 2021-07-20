@@ -15,11 +15,11 @@
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
-            <span> Drag & Drop or <a href="" class="browse">click here</a></span>
+            <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in files" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="false" />
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="multiple" @delete="deleteFile"  />
         </div>   
        
                
@@ -41,7 +41,6 @@ export default {
     },
     data(){
         return {
-            files : this.fileList,
             isLoading: false,
         }
     },
@@ -49,24 +48,27 @@ export default {
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            updateFile("user1", this.multiple, event.target.files, this.files, (fileinfo, err)=>{
+            updateFile("user1", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
                 if(err){
                     console.log("Hello")
                     alert("hello");
                     event.target.value= "";
                 }else if(fileinfo){
                     console.log("fileinfo", fileinfo)
-                    this.files = fileinfo
+                    this.fileList = fileinfo
                     this.isLoading = !this.isLoading
                     event.target.value= "";
                 }
             })
             
         },
+         deleteFile(fileName){
+             this.fileList = this.fileList.filter((file)=> file !== fileName)
+        },  
 
         dragOver(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(243, 217, 217)";
+            event.currentTarget.style.background = "rgb(231, 201, 145)";
         },
 
         dragLeave(event){
@@ -91,7 +93,7 @@ export default {
     justify-content: center; 
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: rgb(228, 228, 228);
+    background: wheat;
     border: rgb(235, 14, 14) dashed 2px;
 }
 .browse{

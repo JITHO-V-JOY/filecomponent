@@ -367,8 +367,11 @@ async function updateFile(bucketName, multiple, newFiles, oldFiles, callback){
 function deleteFile(bucketName, fileName, callback){
     minioClient.removeObject(bucketName, fileName, function(err) {
         if (err) {
+            
           return callback(null, err)
+         
         }
+        console.log("dlete")
         callback(fileName, null)
       })
 }

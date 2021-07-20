@@ -1,8 +1,16 @@
 <template>
         <div >
             <div class="file-info">
-                <span class="file-name" @click="showPreview">{{fileinfo}}</span>
-                <i v-if="deleteoption" class="fas fa-trash delete" @click="onDelete "></i>
+                <div>
+                    <i v-if="preview" class="fas fa-angle-down arrow"></i>
+                    <i v-else class="fas fa-angle-right arrow" ></i>
+                    <span class="file-name" @click="showPreview">{{fileinfo}}</span>
+                 
+                </div>
+                <div>
+                    <i v-if="deleteoption" class="fas fa-trash delete" @click="onDelete "></i>
+
+                </div>
             </div>
             <b-overlay :show="isLoading" rounded="sm" variant="danger">
                 <img v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="250px" >
@@ -61,6 +69,7 @@ export default {
         },
         onDelete(){
             deleteFile("user1", this.fileinfo, (response, err)=>{
+                console.log("hello")
                 if(err){
                     alert(err);
                 }
@@ -91,8 +100,12 @@ export default {
         width: 80%;
         overflow: hidden;
         cursor: pointer;
+        margin-right: 5px;
     }
     .delete{
         cursor: pointer;
+    }
+    .arrow{
+        margin-right: 3px;
     }
 </style>

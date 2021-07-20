@@ -4,7 +4,7 @@
 
          <div name="dropzone" id="dropzone" class="dropzone">
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="false" />
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="false"  />
         </div>    
         </div>
     </div>
@@ -34,7 +34,7 @@ export default {
     justify-content: center; 
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: rgb(228, 228, 228);
+    background: wheat;
     border: rgb(235, 14, 14) solid 1px;
 }
 .browse{
