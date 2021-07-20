@@ -1,5 +1,5 @@
 <template>
-        <component :is="fileMode" :fileList="fileList" :accept="accept" :multiple="multiple"  :label="label"/>
+        <component :is="fileMode" ref="file_widget" :fileList="fileList" :accept="accept" :multiple="multiple"  :label="label"/>
 </template>
 
 <script>
@@ -24,6 +24,11 @@ export default {
                 return FileRead
             }
             
+        }
+    },
+    methods:{
+        getFiles(){
+            return this.$refs.file_widget.fileList;
         }
     }
 }
