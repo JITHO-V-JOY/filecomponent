@@ -19,19 +19,19 @@
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="true"  @delete="deleteFile"  />
-        </div>   
-       
-               
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="true"  @delete="onDelete"  />
+        </div>     
         </div>
          </b-overlay>
+         <p v-for="err in isErr" :key="err"  style="color:red; font-size:12px; margin:0">{{err}}</p>
+
     </div>
    
        
 </template>
 
 <script>
-import {uploadFile} from './services'
+import {uploadFile, deleteFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileCreate',
@@ -42,29 +42,45 @@ export default {
     data(){
         return {
             fileList: [],
-            isLoading: false
+            isLoading: false,
+            isErr:[]
         }
     },
     methods:{
         onChange(event){
             event.preventDefault();
              this.isLoading = !this.isLoading
-            uploadFile("user1", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
-                if(err){
-                    alert(err)
+            uploadFile("user4", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
+                if(err[0]){
+                    this.isErr = err
                     event.target.value= "";
-                }else if(fileinfo){
+                    this.isLoading = false
+                }else{
+                    this.isErr = []
+                }
+                if(fileinfo[0]){
                     console.log("fileinfo", fileinfo)
                     this.fileList = fileinfo;
-                    this.isLoading = !this.isLoading
+                    this.isLoading = false
                     event.target.value= "";
                 }
             })
             
         },
 
-        deleteFile(fileName){
-             this.fileList = this.fileList.filter((file)=> file !== fileName)
+        onDelete(fileName){
+
+              deleteFile("user4", fileName, (file, err)=>{
+                console.log("hello")
+                if(err[0]){
+                    this.isErr = err;
+                }else{
+                    this.isErr = []
+                }
+                if(file){
+                   this.fileList = this.fileList.filter((file)=> file !== fileName)
+                }
+              })
         },
 
         dragOver(event){

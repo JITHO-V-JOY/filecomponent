@@ -21,7 +21,7 @@
 </template>
 <script>
 
-import {deleteFile, getUrl} from "./services"
+import {getUrl} from "./services"
 
 export default {
     name:"FileRender",
@@ -37,7 +37,7 @@ export default {
     methods:{
         showPreview(){
              if(this.fileinfo.match(/.pdf/)){
-                getUrl("user1", this.fileinfo, (response, err)=>{
+                getUrl("user4", this.fileinfo, (response, err)=>{
                     if(err){
                         alert(err)
                     }else if(response){
@@ -51,7 +51,7 @@ export default {
                 }else{
                      this.preview = !this.preview;
                      this.isLoading = !this.isLoading;
-                     getUrl("user1", this.fileinfo, (response, err)=>{
+                     getUrl("user4", this.fileinfo, (response, err)=>{
                             if(err){
                                 alert(err)
                             }else if(response){
@@ -68,15 +68,8 @@ export default {
           
         },
         onDelete(){
-            deleteFile("user1", this.fileinfo, (response, err)=>{
-                console.log("hello")
-                if(err){
-                    alert(err);
-                }
-                if(response){
-                    this.$emit('delete', response)
-                }
-            })
+            console.log("hello")
+            this.$emit('delete', this.fileinfo)
         }
     }
 }
