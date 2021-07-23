@@ -2,13 +2,13 @@
     <div class="container" style="margin-top:10px;">
         <div class="row">
              <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" :fileList="idProof" :multiple="true"  :accept="accept" label="ID Proof" />
+                <FileComponent :mode="mode" v-model="idProof" :multiple="true"  :accept="accept" label="ID Proof" />
             </div>
               <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" :fileList="image"  :multiple="true" :accept="accept" label="Image" />
+                <FileComponent :mode="mode" v-model="image"  :multiple="true" :accept="accept" label="Image" />
             </div>
               <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" :fileList="signature" :multiple="true"  :accept="accept" label="Signature"/>
+                <FileComponent :mode="mode" v-model="signature" :multiple="true"  :accept="accept" label="Signature"/>
             </div>
         </div>
     </div>

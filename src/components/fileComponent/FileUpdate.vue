@@ -37,14 +37,15 @@ import {updateFile, deleteFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileUpdate',
-    props:['fileList', 'accept', 'multiple', 'label'],
+    props:['value', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     },
     data(){
         return {
             isLoading: false,
-            isErr : []
+            isErr : [],
+            fileList: this.value
         }
     },
     methods:{
@@ -64,6 +65,7 @@ export default {
                     this.fileList = fileinfo
                     this.isLoading = false
                     event.target.value= "";
+                    this.$emit('input', this.fileList)
                 }
             })
             
@@ -79,6 +81,7 @@ export default {
                 }
                 if(file){
                    this.fileList = this.fileList.filter((file)=> file !== fileName)
+                   this.$emit('input', this.fileList)
                 }
               })
         },
@@ -107,7 +110,7 @@ export default {
     position: relative;
     padding: 3px;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 5px;
     justify-content: center; 
     min-height: 45px; /* for responsive height */
     cursor: pointer;
