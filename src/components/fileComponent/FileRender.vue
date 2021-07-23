@@ -12,9 +12,8 @@
 
                 </div>
             </div>
-            <b-overlay :show="isLoading" rounded="sm" variant="danger">
-                <img v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="250px" >
-            </b-overlay>
+            
+            <img v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="250px" >
         </div>
                
 
@@ -30,7 +29,6 @@ export default {
         return{
             preview: false,
             fileUrl:"",
-            isLoading: false
         }
     },
     
@@ -50,13 +48,11 @@ export default {
                     this.preview = !this.preview
                 }else{
                      this.preview = !this.preview;
-                     this.isLoading = !this.isLoading;
                      getUrl("user4", this.fileinfo, (response, err)=>{
                             if(err){
                                 alert(err)
                             }else if(response){
                                 this.fileUrl = response;
-                                this.isLoading = !this.isLoading
                         }
                     })
 
@@ -68,7 +64,6 @@ export default {
           
         },
         onDelete(){
-            console.log("hello")
             this.$emit('delete', this.fileinfo)
         }
     }
@@ -94,6 +89,15 @@ export default {
         overflow: hidden;
         cursor: pointer;
         margin-right: 5px;
+        
+    }
+    i:hover{
+        font-size: 18px;
+        color: rgb(243, 223, 142);
+    }
+    span:hover{
+        font-size: 18px;
+        color: rgb(243, 223, 142);
     }
     .delete{
         cursor: pointer;

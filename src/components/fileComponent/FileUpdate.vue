@@ -83,17 +83,17 @@ export default {
               })
         },
 
-        dragOver(event){
+       dragOver(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(231, 201, 145)";
+            event.currentTarget.style.background = "rgb(224, 224, 224)";
         },
 
         dragLeave(event){
             event.preventDefault();
-            event.currentTarget.style.background = "wheat";
+            event.currentTarget.style.background = "rgb(243, 242, 242)";
         },
         onDrop(event){
-            event.currentTarget.style.background = "wheat";
+            event.currentTarget.style.background = "rgb(243, 242, 242)";
         }
   
     },
@@ -107,10 +107,11 @@ export default {
     position: relative;
     padding: 3px;
     flex-direction: column;
+    border-radius: 10px;
     justify-content: center; 
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: wheat;
+    background: rgb(243, 242, 242);
     border: rgb(235, 14, 14) dashed 2px;
 }
 .browse{

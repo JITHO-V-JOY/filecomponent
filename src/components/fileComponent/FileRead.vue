@@ -32,9 +32,10 @@ export default {
     padding: 3px;
     flex-direction: column;
     justify-content: center; 
+    border-radius: 10px;
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: wheat;
+    background: rgb(243, 242, 242);;
     border: rgb(235, 14, 14) solid 1px;
 }
 .browse{

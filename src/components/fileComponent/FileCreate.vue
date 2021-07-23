@@ -23,7 +23,7 @@
         </div>     
         </div>
          </b-overlay>
-         <p v-for="err in isErr" :key="err"  style="color:red; font-size:12px; margin:0">{{err}}</p>
+        <p v-for="err in isErr" :key="err"  style="color:red; font-size:12px; margin:0">{{err}}</p>
 
     </div>
    
@@ -85,15 +85,15 @@ export default {
 
         dragOver(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(231, 201, 145)";
+            event.currentTarget.style.background = "rgb(224, 224, 224)";
         },
 
         dragLeave(event){
             event.preventDefault();
-            event.currentTarget.style.background = "wheat";
+            event.currentTarget.style.background = "rgb(243, 242, 242)";
         },
         onDrop(event){
-            event.currentTarget.style.background = "wheat";
+            event.currentTarget.style.background = "rgb(243, 242, 242)";
         }
   
     } 
@@ -106,10 +106,11 @@ export default {
     position: relative;
     flex-direction: column;
     padding: 3px;
+    border-radius: 10px;
     justify-content: center; 
     min-height: 45px; /* for responsive height */
     cursor: pointer;
-    background: wheat;
+    background: rgb(243, 242, 242);
     border: rgb(235, 14, 14) dashed 2px;
 }
 .browse{
