@@ -13,7 +13,7 @@
                 </template>
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
-            <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple" :accept="String([...accept])"></b-form-file>
+            <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
             <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
             
@@ -52,23 +52,38 @@ export default {
         onChange(event){
             event.preventDefault();
             this.isLoading = !this.isLoading
-            updateFile("user4", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
-                if(err[0]){
-                    this.isErr = err
-                    event.target.value= "";
-                    this.isLoading = false
-                }else{
-                    this.isErr = [];
-                }
-                if(fileinfo[0]){
-                    console.log("fileinfo", fileinfo)
-                    this.fileList = fileinfo
-                    this.isLoading = false
-                    event.target.value= "";
-                    this.$emit('input', this.fileList)
-                }
-            })
+            let alloweUpload = false;
+            for(let i = 0; i<event.target.files.length; i++){
+                let filename = event.target.files[i].name;
+                this.accept.forEach(element =>{
+                    if(filename.match(element)){
+                        alloweUpload = true
+                    }
+                })
+            }
+            if(alloweUpload){
+                updateFile("user4", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
+                    if(err[0]){
+                        this.isErr = err
+                        event.target.value= "";
+                        this.isLoading = false
+                    }else{
+                        this.isErr = [];
+                    }
+                    if(fileinfo[0]){
+                        console.log("fileinfo", fileinfo)
+                        this.fileList = fileinfo
+                        this.isLoading = false
+                        event.target.value= "";
+                        this.$emit('input', this.fileList)
+                    }
+                })
             
+            }else{
+                alert("please upload files of type "+ [...this.accept])
+                this.isLoading = false
+            }
+           
         },
          onDelete(fileName){
 
@@ -115,7 +130,7 @@ export default {
     min-height: 45px; /* for responsive height */
     cursor: pointer;
     background: rgb(243, 242, 242);
-    border: rgb(235, 14, 14) dashed 2px;
+    border: rgb(235, 14, 14) dashed 1.5px;
 }
 .browse{
     border: none;
