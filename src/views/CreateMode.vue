@@ -22,7 +22,7 @@ export default {
     data(){
         return{
             mode:"create",
-            accept:[".pdf", ".png"],
+            accept:[".pdf",".png", ".jpg"],
             idProof: [],
             image: [],
             signature: [],

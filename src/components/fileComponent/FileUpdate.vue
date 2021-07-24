@@ -52,16 +52,20 @@ export default {
         onChange(event){
             event.preventDefault();
             this.isLoading = !this.isLoading
-            let alloweUpload = false;
+            let allowUpload = false;
             for(let i = 0; i<event.target.files.length; i++){
                 let filename = event.target.files[i].name;
                 this.accept.forEach(element =>{
                     if(filename.match(element)){
-                        alloweUpload = true
+                        allowUpload = true
                     }
-                })
+                });
+
+                 if(!allowUpload){
+                    break;
+                }
             }
-            if(alloweUpload){
+            if(allowUpload){
                 updateFile("user4", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
                     if(err[0]){
                         this.isErr = err
