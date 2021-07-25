@@ -4,7 +4,7 @@
 
          <div name="dropzone" id="dropzone" class="dropzone">
          <div>
-            <FileRender v-for="fileinfo in value" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple"/>
+            <FileRender v-for="fileinfo in value" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="false"/>
         </div>    
         </div>
     </div>
@@ -17,7 +17,7 @@
 import FileRender from './FileRender.vue'
 export default {
     name:'FileRead',
-    props:['value', 'accept', 'multiple', 'label'],
+    props:['userId', 'value', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     }

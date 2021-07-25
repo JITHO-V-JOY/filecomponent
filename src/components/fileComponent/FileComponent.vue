@@ -1,5 +1,5 @@
 <template>
-        <component :is="fileMode" ref="file_widge" :value="value" :accept="accept" :multiple="multiple" @input="handleInput" :label="label"/>
+        <component :is="fileMode" :userId="userId" :value="value" :accept="accept" :multiple="multiple" @input="handleInput" :label="label"/>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ import FileRead from './FileRead.vue'
 
 export default {
     name:'FileComponent',
-    props:['mode', 'value', 'multiple', 'accept', 'label'],
+    props:['mode', 'userId', 'value', 'multiple', 'accept', 'label'],
     components:{
         FileCreate ,
         FileUpdate

@@ -24,18 +24,18 @@ import {getUrl} from "./services"
 
 export default {
     name:"FileRender",
-    props:["fileinfo", "multiple", "deleteOption"],
+    props:["userId", "fileinfo", "multiple", "deleteOption"],
     data(){
         return{
             preview: false,
             fileUrl:"",
-            filetype:null
+            filetype:""
         }
     },
     methods:{
         showPreview(){
              if(this.fileinfo.match(/.pdf/) || this.fileinfo.match(/.docx/)){
-                getUrl("user4", this.fileinfo, (response, err)=>{
+                getUrl(this.userId, this.fileinfo, (response, err)=>{
                     if(err){
                         alert(err)
                     }else if(response){
@@ -48,7 +48,7 @@ export default {
                     this.preview = false
                 }else{
                      this.preview = !this.preview;
-                     getUrl("user4", this.fileinfo, (response, err)=>{
+                     getUrl(this.userId, this.fileinfo, (response, err)=>{
                             console.log(err)
                              if(response){
                                 this.fileUrl = response;
@@ -71,7 +71,7 @@ export default {
             console.log("Hello")
             types.forEach(element =>{
                 if(this.fileinfo.match(element)){
-                     getUrl("user4", this.fileinfo, (response, err)=>{
+                     getUrl(this.userId, this.fileinfo, (response, err)=>{
                             console.log(err)
                             if(response){
                                 this.fileUrl = response;

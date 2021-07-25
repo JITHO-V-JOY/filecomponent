@@ -18,7 +18,7 @@
             <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
+            <FileRender v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
         </div>           
         </div>
         </b-overlay>
@@ -34,7 +34,7 @@ import {updateFile, deleteFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileUpdate',
-    props:['value', 'accept', 'multiple', 'label'],
+    props:['userId', 'value', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     },
@@ -63,7 +63,7 @@ export default {
                 }
             }
             if(allowUpload){
-                updateFile("user4", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
+                updateFile(this.userId, this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
                     if(err[0]){
                         this.isErr = err
                         event.target.value= "";
@@ -88,7 +88,7 @@ export default {
         },
          onDelete(fileName){
 
-              deleteFile("user4", fileName, (file, err)=>{
+              deleteFile(this.userId, fileName, (file, err)=>{
                 console.log("hello")
                 if(err[0]){
                     this.isErr = err;

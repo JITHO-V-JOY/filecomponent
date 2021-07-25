@@ -19,7 +19,7 @@
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
+            <FileRender v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
         </div>     
         </div>
          </b-overlay>
@@ -35,7 +35,7 @@ import {uploadFile, deleteFile} from './services'
 import FileRender from './FileRender.vue'
 export default {
     name:'FileCreate',
-    props:['value', 'accept', 'multiple', 'label'],
+    props:['userId', 'value', 'accept', 'multiple', 'label'],
     components:{
         FileRender
     },
@@ -65,7 +65,8 @@ export default {
 
             console.log("allowed", allowUpload);
             if(allowUpload){
-                uploadFile("user4", this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
+                console.log("userId", this.userId)
+                uploadFile(this.userId, this.multiple, event.target.files, this.fileList, (fileinfo, err)=>{
                     if(err[0]){
                         this.isErr = err
                         event.target.value= "";
@@ -91,7 +92,7 @@ export default {
 
         onDelete(fileName){
 
-              deleteFile("user4", fileName, (file, err)=>{
+              deleteFile(this.userId, fileName, (file, err)=>{
                 console.log("hello")
                 if(err[0]){
                     this.isErr = err;
