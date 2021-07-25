@@ -1,15 +1,14 @@
 <template>
         <div >
-            <div class="file-info">
-                <div>
-                    <i v-if="preview" class="fas fa-angle-down arrow-active"></i>
-                    <i v-else class="fas fa-angle-right arrow-right" ></i>
-                    <span v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</span>
-                    <span v-else class="file-name" @click="showPreview">{{fileinfo}}</span>
+            <div class="file-preview">
+                <div class="fileinfo">
+                    <img  :src="require(`../../../public/images/${filetype}.svg`)" width="20px" height="25px" alt="">
+                    <i v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</i>
+                    <i v-else class="file-name" @click="showPreview">{{fileinfo}}</i>
 
                 </div>
                 <div>
-                    <i v-if="deleteoption" class="fas fa-trash delete" @click="onDelete "></i>
+                    <i v-if="deleteOption" class="fas fa-trash delete" @click="onDelete "></i>
 
                 </div>
             </div>
@@ -25,16 +24,17 @@ import {getUrl} from "./services"
 
 export default {
     name:"FileRender",
-    props:["fileinfo", "deleteoption"],
+    props:["fileinfo", "multiple", "deleteOption"],
     data(){
         return{
             preview: false,
             fileUrl:"",
+            filetype:null
         }
     },
     methods:{
         showPreview(){
-             if(this.fileinfo.match(/.pdf/)){
+             if(this.fileinfo.match(/.pdf/) || this.fileinfo.match(/.docx/)){
                 getUrl("user4", this.fileinfo, (response, err)=>{
                     if(err){
                         alert(err)
@@ -49,12 +49,11 @@ export default {
                 }else{
                      this.preview = !this.preview;
                      getUrl("user4", this.fileinfo, (response, err)=>{
-                            if(err){
-                                alert(err)
-                            }else if(response){
+                            console.log(err)
+                             if(response){
                                 this.fileUrl = response;
-                               
-                        }
+                                this.preview = true
+                            }
                     })
 
                 }
@@ -68,36 +67,58 @@ export default {
             this.$emit('delete', this.fileinfo)
         },
          allowPreview(){
-            let types =  [".jpg", ".png"];
+            let types =  ["jpg", "png", "jpeg"];
             console.log("Hello")
             types.forEach(element =>{
                 if(this.fileinfo.match(element)){
                      getUrl("user4", this.fileinfo, (response, err)=>{
-                            if(err){
-                                alert(err)
-                            }else if(response){
+                            console.log(err)
+                            if(response){
                                 this.fileUrl = response;
-                                this.preview = true
-                        }
+                                if(!this.multiple){
+                                    this.preview = true
+                                }
+                            }
                     })
                 }
             })
+        },
+
+        fetchFileType(){
+            let types = ["pdf"];
+            let images = ["jpg", "jpeg", "png"];
+            types.forEach(element =>{
+                  if(this.fileinfo.match(element)){
+                      this.filetype = element;
+                  }
+            })
+
+            images.forEach(element =>{
+                  if(this.fileinfo.match(element)){
+                      this.filetype = "img";
+                  }
+            })
+            if(!this.filetype){
+                this.filetype = "file"
+            }
         }
     },
+
     mounted(){
         this.allowPreview()
+        this.fetchFileType()
     }
 }
 </script>
 
 <style scoped>
-    .file-info{
+    .file-preview{
         display: flex;
         padding:2px 5px;
         margin: 2px 0;
         border-radius: 5px;
         justify-content: space-between;
-        background:#857a7a;
+        background:#7c7c7c;
         color: rgb(255, 255, 255);
         width:100%;
         align-items: center;
@@ -105,24 +126,30 @@ export default {
         
     }
     .file-name{
-        width: 80%;
+        width: 300px;
         overflow: hidden;
         cursor: pointer;
-        margin-right: 5px;
+        margin-left: 5px;
         
     }
      .file-name-active{
-        width: 80%;
+        width: 300px;
         overflow: hidden;
         cursor: pointer;
-        margin-right: 5px;
+        margin-left: 5px;
         font-size: 18px;
+        font-style: italic;
         color: rgb(243, 223, 142);
+        text-decoration: underline;
         
+    }
+    .type{
+        color: rgb(255, 255, 255);
     }
     i:hover{
         font-size: 18px;
         color: rgb(243, 223, 142);
+        text-decoration: underline;
     }
     span:hover{
         font-size: 18px;
@@ -131,11 +158,8 @@ export default {
     .delete{
         cursor: pointer;
     }
-    .arrow-active{
-        margin-right: 3px;
-        color: rgb(243, 223, 142);
+    .fileinfo{
+        display: flex;
     }
-    .arrow-right{
-        margin-right: 3px;
-    }
+    
 </style>

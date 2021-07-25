@@ -8,7 +8,7 @@
                 <FileComponent :mode="mode" v-model="image"  :multiple="true" :accept="accept" label="Image" />
             </div>
               <div class="col-12 col-md-4">
-                <FileComponent :mode="mode" v-model="signature" :multiple="true"  :accept="accept" label="Signature"/>
+                <FileComponent :mode="mode" v-model="signature" :multiple="false"  :accept="accept" label="Signature"/>
             </div>
         </div>
     </div>

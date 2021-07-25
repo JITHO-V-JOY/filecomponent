@@ -2,10 +2,10 @@
     <div>
          <label for="dropzone" style="font-weight:bold">{{label}}</label>
 
-         <b-overlay :show="isLoading" rounded="sm" variant="secondary">
+         <b-overlay :show="isLoading" rounded="sm" variant="secondary" opacity="0.97">
               <template #overlay>
                    <div class="d-flex align-items-center">
-                        <h6 style="color: white; font-wieght: 700; marging-right:2px">Uploading</h6>
+                        <h6 style="color: white; font-weight: 700; marging-right:2px">Uploading</h6>
                            <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
                            <b-spinner style="width: 1rem; height: 1rem;"  type="grow" variant="white"></b-spinner>
                            <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
@@ -19,7 +19,7 @@
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="true"  @delete="onDelete"  />
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
         </div>     
         </div>
          </b-overlay>

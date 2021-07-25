@@ -4,7 +4,7 @@
 
          <div name="dropzone" id="dropzone" class="dropzone">
          <div>
-            <FileRender v-for="fileinfo in value" :fileinfo="fileinfo" :key="fileinfo" :deleteoption="false"  />
+            <FileRender v-for="fileinfo in value" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple"/>
         </div>    
         </div>
     </div>

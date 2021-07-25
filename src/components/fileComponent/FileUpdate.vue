@@ -16,13 +16,10 @@
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
             <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
-            
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :deleteoption="multiple" @delete="onDelete"  />
-        </div>   
-       
-               
+            <FileRender v-for="fileinfo in fileList" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
+        </div>           
         </div>
         </b-overlay>
         <p v-for="err in isErr" :key="err"  style="color:red; font-size:12px; margin:0">{{err}}</p>
