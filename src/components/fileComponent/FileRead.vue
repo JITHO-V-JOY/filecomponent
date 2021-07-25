@@ -4,7 +4,7 @@
 
          <div name="dropzone" id="dropzone" class="dropzone">
          <div>
-            <FileRender v-for="fileinfo in value" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="false"/>
+            <FilePreview v-for="fileinfo in value" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="false"/>
         </div>    
         </div>
     </div>
@@ -14,12 +14,12 @@
 
 <script>
 
-import FileRender from './FileRender.vue'
+import FilePreview from './FilePreview.vue'
 export default {
     name:'FileRead',
     props:['userId', 'value', 'accept', 'multiple', 'label'],
     components:{
-        FileRender
+        FilePreview
     }
    
 }
@@ -34,30 +34,8 @@ export default {
     justify-content: center; 
     border-radius: 5px;
     min-height: 45px; /* for responsive height */
-    cursor: pointer;
     background: rgb(243, 242, 242);;
     border: rgb(235, 14, 14) solid 1px;
-}
-.browse{
-    border: none;
-    color: rgb(238, 43, 43);
-    text-decoration: underline;
-}
-.form-file{
-        overflow: hidden;
-        width: 100%;
-        height: 45px;
-        opacity: 0;
-        position: absolute;
-          cursor: pointer;  
-}
-.file-input{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    justify-content: center;
-  
 }
 
 

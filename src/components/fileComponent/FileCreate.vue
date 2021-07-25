@@ -14,12 +14,12 @@
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
-            <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
-            <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
+            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:27px;"></i>
+            <span class="upload-text"> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
             
         </div>
          <div>
-            <FileRender v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
+            <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
         </div>     
         </div>
          </b-overlay>
@@ -32,12 +32,12 @@
 
 <script>
 import {uploadFile, deleteFile} from './services'
-import FileRender from './FileRender.vue'
+import FilePreview from './FilePreview.vue'
 export default {
     name:'FileCreate',
     props:['userId', 'value', 'accept', 'multiple', 'label'],
     components:{
-        FileRender
+        FilePreview
     },
     data(){
         return {
@@ -157,6 +157,12 @@ export default {
     width: 100%;
     justify-content: center;
   
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .upload-text{
+        font-size: 13px;
+    }
 }
 
 

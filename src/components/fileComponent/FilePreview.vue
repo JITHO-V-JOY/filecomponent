@@ -2,18 +2,17 @@
         <div >
             <div class="file-preview">
                 <div class="fileinfo">
-                    <img  :src="require(`../../../public/images/${filetype}.svg`)" width="20px" height="25px" alt="">
+                    <img v-if="filetype"  :src="require(`../../../public/images/${filetype}.svg`)" width="20px" height="25px" alt="">
                     <i v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</i>
                     <i v-else class="file-name" @click="showPreview">{{fileinfo}}</i>
-
                 </div>
-                <div>
-                    <i v-if="deleteOption" class="fas fa-trash delete" @click="onDelete "></i>
+    
+                 <i v-if="deleteOption" class="fas fa-trash delete" @click="onDelete "></i>
 
-                </div>
+            
             </div>
             
-            <img v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="250px" >
+            <img class="show-file" v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="250px" >
         </div>
                
 
@@ -23,13 +22,13 @@
 import {getUrl} from "./services"
 
 export default {
-    name:"FileRender",
+    name:"FilePreview",
     props:["userId", "fileinfo", "multiple", "deleteOption"],
     data(){
         return{
             preview: false,
             fileUrl:"",
-            filetype:""
+            filetype:null
         }
     },
     methods:{
@@ -60,8 +59,6 @@ export default {
                 
             }
 
-            
-          
         },
         onDelete(){
             this.$emit('delete', this.fileinfo)
@@ -85,17 +82,10 @@ export default {
         },
 
         fetchFileType(){
-            let types = ["pdf"];
-            let images = ["jpg", "jpeg", "png"];
+            let types = ["pdf", "jpg", "jpeg", "png", "docx"];
             types.forEach(element =>{
                   if(this.fileinfo.match(element)){
                       this.filetype = element;
-                  }
-            })
-
-            images.forEach(element =>{
-                  if(this.fileinfo.match(element)){
-                      this.filetype = "img";
                   }
             })
             if(!this.filetype){
@@ -126,14 +116,12 @@ export default {
         
     }
     .file-name{
-        width: 300px;
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
         
     }
      .file-name-active{
-        width: 300px;
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
@@ -160,6 +148,13 @@ export default {
     }
     .fileinfo{
         display: flex;
+        width: 80%;
     }
+
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+        .show-file{
+            height: 150px;
+        }
+}
     
 </style>

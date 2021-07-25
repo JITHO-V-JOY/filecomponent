@@ -12,7 +12,8 @@ export default {
     props:['mode', 'userId', 'value', 'multiple', 'accept', 'label'],
     components:{
         FileCreate ,
-        FileUpdate
+        FileUpdate,
+        FileRead
     },
     computed:{
         fileMode: function(){

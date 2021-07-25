@@ -1,24 +1,23 @@
 <template>
     <div>
          <label for="dropzone" style="font-weight:bold">{{label}}</label>
-
          <b-overlay :show="isLoading" rounded="sm" variant="secondary">
-                <template #overlay>
-                    <div class="d-flex align-items-center">
-                        <h6 style="color: white; font-wieght: 700; marging-right:2px">Uploading</h6>
-                           <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
-                           <b-spinner style="width: 1rem; height: 1rem;"  type="grow" variant="white"></b-spinner>
-                           <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
-                    </div>
-                </template>
+            <template #overlay>
+                <div class="d-flex align-items-center">
+                    <h6 style="color: white; font-wieght: 700; marging-right:2px">Uploading</h6>
+                    <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
+                    <b-spinner style="width: 1rem; height: 1rem;"  type="grow" variant="white"></b-spinner>
+                    <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
+                </div>
+            </template>
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
-            <i class="fas fa-cloud-upload-alt" style="color:gray; font-size:27px;"></i>
-            <span> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
+            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:27px;"></i>
+            <span class="upload-text"> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
         </div>
-         <div>
-            <FileRender v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
+        <div>
+            <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
         </div>           
         </div>
         </b-overlay>
@@ -31,12 +30,12 @@
 
 <script>
 import {updateFile, deleteFile} from './services'
-import FileRender from './FileRender.vue'
+import FilePreview from './FilePreview.vue'
 export default {
     name:'FileUpdate',
     props:['userId', 'value', 'accept', 'multiple', 'label'],
     components:{
-        FileRender
+        FilePreview
     },
     data(){
         return {
@@ -153,6 +152,11 @@ export default {
     width: 100%;
     justify-content: center;
   
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .upload-text{
+        font-size: 13px;
+    }
 }
 
 
