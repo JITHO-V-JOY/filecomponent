@@ -3,8 +3,12 @@
             <div class="file-preview">
                 <div class="fileinfo">
                     <img v-if="filetype"  :src="require(`../../../public/images/${filetype}.svg`)" width="20px" height="25px" alt="">
-                    <i v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</i>
-                    <i v-else class="file-name" @click="showPreview">{{fileinfo}}</i>
+                    <svg v-if="preview" viewBox="0 0 200 20">
+                        <text x="5" y="15" class="file-name-active" @click="showPreview">{{fileinfo}}</text>
+                    </svg>
+                    <svg v-else viewBox="0 0 200 20">
+                    <text x="5" y="15" class="file-name" @click="showPreview">{{fileinfo}}</text>
+                    </svg>
                 </div>
     
                  <i v-if="deleteOption" class="fas fa-trash delete" @click="onDelete "></i>
@@ -119,6 +123,7 @@ export default {
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
+        fill: white;
         
     }
      .file-name-active{
@@ -127,7 +132,7 @@ export default {
         margin-left: 5px;
         font-size: 18px;
         font-style: italic;
-        color: rgb(243, 223, 142);
+        fill: rgb(243, 223, 142);
         text-decoration: underline;
         
     }

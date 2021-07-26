@@ -15,8 +15,9 @@
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
             <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:27px;"></i>
-            <span class="upload-text"> Drag & Drop or <a href="" class="browse">click here</a> to upload</span>
-            
+            <svg viewBox="0 0 280 20">
+               <text x="15" y="15" class="browse">Drag & Drop or <a style="text-decoration:underline; fill:red;">click here</a> to upload</text>
+            </svg>            
         </div>
          <div>
             <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
@@ -139,8 +140,7 @@ export default {
 }
 .browse{
     border: none;
-    color: red;
-    text-decoration: underline;
+    fill:gray
 }
 .form-file{
         overflow: hidden;
@@ -157,6 +157,9 @@ export default {
     width: 100%;
     justify-content: center;
   
+}
+.upload-text{
+     font-size: 11px;
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {

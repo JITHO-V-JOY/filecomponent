@@ -10,6 +10,7 @@
               <div class="col-12 col-md-4">
                 <FileComponent :mode="mode" :userId="userId" v-model="signature" :multiple="false"  :accept="accept" label="Signature"/>
             </div>
+            
         </div>
     </div>
 </template>
