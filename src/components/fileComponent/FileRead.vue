@@ -34,8 +34,8 @@ export default {
     justify-content: center; 
     border-radius: 5px;
     min-height: 45px; /* for responsive height */
-    background: rgb(243, 242, 242);;
-    border: rgb(235, 14, 14) solid 1px;
+    background: rgb(245, 245, 245);
+    border: rgb(114, 114, 114) solid 1.5px;
 }
 
 

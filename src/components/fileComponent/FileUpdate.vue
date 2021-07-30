@@ -13,10 +13,9 @@
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
-            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:27px;"></i>
-            <svg viewBox="0 0 280 20">
-               <text x="15" y="15" class="browse">Drag & Drop or <a style="text-decoration:underline; fill:red;">click here</a> to upload</text>
-            </svg>     
+            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:30px; padding:0 5px"></i>
+            <span class="browse">drag & drop or choose file</span>
+
         </div>
         <div>
             <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
@@ -110,12 +109,11 @@ export default {
 
         dragLeave(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(243, 242, 242)";
+            event.currentTarget.style.background = "rgb(240, 240, 240)";
         },
         onDrop(event){
-            event.currentTarget.style.background = "rgb(243, 242, 242)";
+            event.currentTarget.style.background = "rgb(240, 240, 240)";
         }
-  
     },
    
 }
@@ -125,14 +123,14 @@ export default {
 .dropzone{
     display: flex;
     position: relative;
-    padding: 3px;
     flex-direction: column;
     border-radius: 5px;
+    padding: 2px;
     justify-content: center; 
-    min-height: 45px; /* for responsive height */
+    min-height: 40px; /* for responsive height */
     cursor: pointer;
-    background: rgb(243, 242, 242);
-    border: rgb(235, 14, 14) dashed 1.5px;
+    background: rgb(245, 245, 245);
+    border: rgb(114, 114, 114) solid 1.5px;
 }
 .browse{
     border: none;
@@ -148,10 +146,12 @@ export default {
 }
 .file-input{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     justify-content: center;
+    border: rgb(179, 179, 179) dashed 1.5px;
+    border-radius: 5px;
   
 }
 .upload-text{

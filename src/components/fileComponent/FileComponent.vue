@@ -8,7 +8,7 @@ import FileUpdate from './FileUpdate.vue'
 import FileRead from './FileRead.vue'
 
 export default {
-    name:'FileComponent',
+    name:'base-form-file',
     props:['mode', 'userId', 'value', 'multiple', 'accept', 'label'],
     components:{
         FileCreate ,

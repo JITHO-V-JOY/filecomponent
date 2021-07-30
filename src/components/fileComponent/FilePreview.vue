@@ -3,20 +3,14 @@
             <div class="file-preview">
                 <div class="fileinfo">
                     <img v-if="filetype"  :src="require(`../../../public/images/${filetype}.svg`)" width="20px" height="25px" alt="">
-                    <svg v-if="preview" viewBox="0 0 200 20">
-                        <text x="5" y="15" class="file-name-active" @click="showPreview">{{fileinfo}}</text>
-                    </svg>
-                    <svg v-else viewBox="0 0 200 20">
-                    <text x="5" y="15" class="file-name" @click="showPreview">{{fileinfo}}</text>
-                    </svg>
+                    <span v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</span>
+                    <span v-else class="file-name" @click="showPreview">{{fileinfo}}</span>
                 </div>
     
                  <i v-if="deleteOption" class="fas fa-trash delete" @click="onDelete "></i>
-
-            
             </div>
+             <img class="show-file" v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="auto" >
             
-            <img class="show-file" v-if="preview" :src="fileUrl" alt="failed to load image" width="100%" height="250px" >
         </div>
                
 
@@ -112,8 +106,8 @@ export default {
         margin: 2px 0;
         border-radius: 5px;
         justify-content: space-between;
-        background:#7c7c7c;
-        color: rgb(255, 255, 255);
+        background:#afafaf;
+        color: rgb(71, 71, 71);
         width:100%;
         align-items: center;
         cursor: default;
@@ -123,16 +117,14 @@ export default {
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
-        fill: white;
+    
         
     }
      .file-name-active{
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
-        font-size: 18px;
         font-style: italic;
-        fill: rgb(243, 223, 142);
         text-decoration: underline;
         
     }
@@ -141,12 +133,10 @@ export default {
     }
     i:hover{
         font-size: 18px;
-        color: rgb(243, 223, 142);
         text-decoration: underline;
     }
     span:hover{
         font-size: 18px;
-        color: rgb(243, 223, 142);
     }
     .delete{
         cursor: pointer;
@@ -154,12 +144,8 @@ export default {
     .fileinfo{
         display: flex;
         width: 80%;
+        align-items: center;
     }
 
-    @media screen and (min-width: 768px) and (max-width: 991px) {
-        .show-file{
-            height: 150px;
-        }
-}
     
 </style>

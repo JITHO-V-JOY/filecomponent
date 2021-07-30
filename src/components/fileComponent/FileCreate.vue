@@ -3,7 +3,7 @@
          <label for="dropzone" style="font-weight:bold">{{label}}</label>
 
          <b-overlay :show="isLoading" rounded="sm" variant="secondary" opacity="0.97">
-              <template #overlay>
+               <template #overlay>
                    <div class="d-flex align-items-center">
                         <h6 style="color: white; font-weight: 700; marging-right:2px">Uploading</h6>
                            <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
@@ -12,16 +12,13 @@
                     </div>
                 </template>
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
-         <div class="file-input" >
+         <div class="file-input">
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
-            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:27px;"></i>
-            <svg viewBox="0 0 280 20">
-               <text x="15" y="15" class="browse">Drag & Drop or <a style="text-decoration:underline; fill:red;">click here</a> to upload</text>
-            </svg>            
+            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:32px; padding:0 5px"></i>
+            <span class="browse">drag & drop or choose file</span>
         </div>
-         <div>
-            <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
-        </div>     
+        <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
+    
         </div>
          </b-overlay>
         <p v-for="err in isErr" :key="err"  style="color:red; font-size:12px; margin:0">{{err}}</p>
@@ -115,10 +112,10 @@ export default {
 
         dragLeave(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(243, 242, 242)";
+            event.currentTarget.style.background = "rgb(240, 240, 240)";
         },
         onDrop(event){
-            event.currentTarget.style.background = "rgb(243, 242, 242)";
+            event.currentTarget.style.background = "rgb(240, 240, 240)";
         }
   
     } 
@@ -130,43 +127,36 @@ export default {
     display: flex;
     position: relative;
     flex-direction: column;
-    padding: 3px;
     border-radius: 5px;
+    padding: 2px;
     justify-content: center; 
-    min-height: 45px; /* for responsive height */
+    min-height: 40px; /* for responsive height */
     cursor: pointer;
-    background: rgb(243, 242, 242);
-    border: rgb(235, 14, 14) dashed 1.5px;
+    background: rgb(245, 245, 245);
+    border: rgb(114, 114, 114) solid 1.5px;
 }
 .browse{
     border: none;
-    fill:gray
+    color:gray;
 }
 .form-file{
         overflow: hidden;
         width: 100%;
-        height: 45px;
+        height: 40px;
         opacity: 0;
         position: absolute;
         cursor: pointer;  
 }
 .file-input{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     justify-content: center;
-  
-}
-.upload-text{
-     font-size: 11px;
+    border: rgb(179, 179, 179) dashed 1.5px;
+    border-radius: 5px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 991px) {
-    .upload-text{
-        font-size: 13px;
-    }
-}
 
 
 </style>
