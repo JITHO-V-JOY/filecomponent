@@ -2,7 +2,7 @@
         <div >
             <div class="file-preview">
                 <div class="fileinfo">
-                    <img v-if="filetype"  :src="require(`../../../public/images/${filetype}.svg`)" width="20px" height="25px" alt="">
+                    <img v-if="filetype"  :src="require(`../../../public/img/${filetype}.svg`)" width="20px" height="25px" alt="">
                     <span v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</span>
                     <span v-else class="file-name" @click="showPreview">{{fileinfo}}</span>
                 </div>
@@ -16,9 +16,7 @@
 
 </template>
 <script>
-
 import {getUrl} from "./services"
-
 export default {
     name:"FilePreview",
     props:["userId", "fileinfo", "multiple", "deleteOption"],
@@ -52,11 +50,9 @@ export default {
                                 this.preview = true
                             }
                     })
-
                 }
                 
             }
-
         },
         onDelete(){
             this.$emit('delete', this.fileinfo)
@@ -78,7 +74,6 @@ export default {
                 }
             })
         },
-
         fetchFileType(){
             let types = ["pdf", "jpg", "jpeg", "png", "docx"];
             types.forEach(element =>{
@@ -91,7 +86,6 @@ export default {
             }
         }
     },
-
     mounted(){
         this.allowPreview()
         this.fetchFileType()
@@ -107,8 +101,9 @@ export default {
         border-radius: 5px;
         justify-content: space-between;
         background:#afafaf;
-        color: rgb(71, 71, 71);
+        color: rgb(247, 247, 247);
         width:100%;
+        font-weight: 700;
         align-items: center;
         cursor: default;
         
@@ -146,6 +141,5 @@ export default {
         width: 80%;
         align-items: center;
     }
-
     
 </style>
