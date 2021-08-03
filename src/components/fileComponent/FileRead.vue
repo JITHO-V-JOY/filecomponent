@@ -1,6 +1,6 @@
 <template>
     <div>
-         <label for="dropzone" style="font-weight:bold">{{label}}</label>
+         <label for="dropzone" class="control-label" >{{label}}</label>
 
          <div name="dropzone" id="dropzone" class="dropzone">
          <div>
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-
 import FilePreview from './FilePreview.vue'
 export default {
     name:'FileRead',
@@ -34,9 +33,7 @@ export default {
     justify-content: center; 
     border-radius: 5px;
     min-height: 45px; /* for responsive height */
-    background: rgb(245, 245, 245);
-    border: rgb(114, 114, 114) solid 1.5px;
+    background: rgb(255, 255, 255);
+    border: rgb(151, 151, 151) solid 1px;
 }
-
-
 </style>
