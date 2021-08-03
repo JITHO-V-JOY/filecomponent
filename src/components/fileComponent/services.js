@@ -1,13 +1,11 @@
-
-
 var Minio = require('minio')
 
 var minioClient = new Minio.Client({
-    endPoint: process.env.VUE_APP_MINIO_ENDPOINT,
+    endPoint: "localhost",
     port: 9000,
     useSSL: false,
-    accessKey: process.env.VUE_APP_MINIO_ACCESS_KEY,
-    secretKey: process.env.VUE_APP_MINIO_SECRET_KEY
+    accessKey: "minioadmin",
+    secretKey: "minioadmin"
 });
 
 
@@ -236,3 +234,5 @@ function getUrl(bucketName, fileName, callback){
 }
 
 export {uploadFile, updateFile, deleteFile, getUrl}
+
+
