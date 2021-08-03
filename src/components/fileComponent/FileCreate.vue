@@ -1,21 +1,21 @@
 <template>
     <div>
-         <label for="dropzone" style="font-weight:bold">{{label}}</label>
+         <label for="dropzone" class="control-label" >{{label}}</label>
 
          <b-overlay :show="isLoading" rounded="sm" variant="secondary" opacity="0.97">
                <template #overlay>
                    <div class="d-flex align-items-center">
-                        <h6 style="color: white; font-weight: 700; marging-right:2px">Uploading</h6>
-                           <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
-                           <b-spinner style="width: 1rem; height: 1rem;"  type="grow" variant="white"></b-spinner>
-                           <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" variant="white"></b-spinner>
-                    </div>
+                    <h6 style="color: black; font-wieght: 700; marging-right:2px">Uploading</h6>
+                    <b-spinner style="width: 0.5rem; height: 0.5rem; color: gray" small type="grow" ></b-spinner>
+                    <b-spinner style="width: 1rem; height: 1rem;"  type="grow" ></b-spinner>
+                    <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" ></b-spinner>
+                </div>
                 </template>
          <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input">
             <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
-            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:32px; padding:0 5px"></i>
-            <span class="browse">drag & drop or choose file</span>
+            <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:21px; padding:0 5px"></i>
+            <span class="browse">drag & drop or choose</span>
         </div>
         <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="true"  @delete="onDelete"  />
     
@@ -60,7 +60,6 @@ export default {
                     break;
                 }
             }
-
             console.log("allowed", allowUpload);
             if(allowUpload){
                 console.log("userId", this.userId)
@@ -87,9 +86,7 @@ export default {
             
             
         },
-
         onDelete(fileName){
-
               deleteFile(this.userId, fileName, (file, err)=>{
                 console.log("hello")
                 if(err[0]){
@@ -100,22 +97,19 @@ export default {
                 if(file){
                    this.fileList = this.fileList.filter((file)=> file !== fileName)
                    this.$emit('input', this.fileList)
-
                 }
               })
         },
-
         dragOver(event){
             event.preventDefault();
             event.currentTarget.style.background = "rgb(224, 224, 224)";
         },
-
         dragLeave(event){
             event.preventDefault();
-            event.currentTarget.style.background = "rgb(240, 240, 240)";
+            event.currentTarget.style.background = "rgb(255, 255, 255";
         },
         onDrop(event){
-            event.currentTarget.style.background = "rgb(240, 240, 240)";
+            event.currentTarget.style.background = "rgb(255, 255, 255";
         }
   
     } 
@@ -132,12 +126,13 @@ export default {
     justify-content: center; 
     min-height: 40px; /* for responsive height */
     cursor: pointer;
-    background: rgb(245, 245, 245);
+    background: rgb(255, 255, 255);
     border: rgb(114, 114, 114) solid 1.5px;
 }
 .browse{
     border: none;
     color:gray;
+    font-size: 13px;
 }
 .form-file{
         overflow: hidden;
@@ -156,7 +151,4 @@ export default {
     border: rgb(179, 179, 179) dashed 1.5px;
     border-radius: 5px;
 }
-
-
-
 </style>
