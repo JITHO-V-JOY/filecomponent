@@ -2,7 +2,7 @@
     <div>
          <label for="dropzone" class="control-label" >{{label}}</label>
 
-         <div name="dropzone" id="dropzone" class="dropzone">
+         <div name="dropzone" :id="id" class="dropzone">
          <div>
             <FilePreview v-for="fileinfo in value" :userId="userId" :fileinfo="fileinfo" :key="fileinfo" :multiple="multiple" :deleteOption="false"/>
         </div>    
@@ -16,7 +16,7 @@
 import FilePreview from './FilePreview.vue'
 export default {
     name:'FileRead',
-    props:['userId', 'value', 'accept', 'multiple', 'label'],
+    props:['id', 'userId', 'value', 'accept', 'multiple', 'label'],
     components:{
         FilePreview
     }
