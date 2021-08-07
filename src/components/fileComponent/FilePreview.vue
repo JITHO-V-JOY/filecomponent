@@ -3,8 +3,8 @@
             <div class="file-preview">
                 <div class="fileinfo">
                     <img v-if="filetype"  :src="require(`../../../public/img/${filetype}.svg`)" width="20px" height="25px" alt="">
-                    <span v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</span>
-                    <span v-else class="file-name" @click="showPreview">{{fileinfo}}</span>
+                    <p v-if="preview" class="file-name-active" @click="showPreview">{{fileinfo}}</p>
+                    <p v-else class="file-name" @click="showPreview">{{fileinfo}}</p>
                 </div>
     
                  <i v-if="deleteOption" class="fas fa-trash delete" @click="onDelete "></i>
@@ -96,9 +96,9 @@ export default {
 <style scoped>
     .file-preview{
         display: flex;
-        padding:2px 5px;
+        padding:0px 3px;
         margin: 2px 0;
-        border-radius: 5px;
+        border-radius: 3px;
         justify-content: space-between;
         background:#afafaf;
         color: rgb(247, 247, 247);
@@ -112,26 +112,31 @@ export default {
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
-    
-        
+        color: rgb(247, 247, 247);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 12px;  
     }
      .file-name-active{
         overflow: hidden;
         cursor: pointer;
         margin-left: 5px;
         font-style: italic;
+        color: rgb(247, 247, 247);
         text-decoration: underline;
-        
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 12px;
     }
     .type{
         color: rgb(255, 255, 255);
     }
     i:hover{
-        font-size: 18px;
-        text-decoration: underline;
+        font-size: 14px;
     }
-    span:hover{
-        font-size: 18px;
+    p:hover{
+         text-decoration: underline;
+
     }
     .delete{
         cursor: pointer;
@@ -140,6 +145,7 @@ export default {
         display: flex;
         width: 80%;
         align-items: center;
+
     }
     
 </style>
