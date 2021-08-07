@@ -10,12 +10,12 @@
                     <b-spinner style="width: 0.5rem; height: 0.5rem;" small type="grow" ></b-spinner>
                 </div>
             </template>
-         <div name="dropzone" id="dropzone" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
+         <div name="dropzone" :id="id" class="dropzone" @dragover="dragOver" @dragleave="dragLeave" @drop="onDrop">
          <div class="file-input" >
-            <b-form-file id="form-file" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
-           <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:21px; padding:0 5px"></i>
-            <span class="browse">drag & drop or choose</span>
-
+            <b-form-file :id="id" class="form-file" name="idproof"  @change ="onChange" plain :multiple="multiple"></b-form-file>
+            <div class="browse">
+                <i class="fas fa-cloud-upload-alt" style="color:#b3b3b3; font-size:15px; padding:0 3px 0 0px"></i><span>drag & drop or choose</span>
+            </div>
         </div>
         <div>
             <FilePreview v-for="fileinfo in fileList" :userId="userId" :fileinfo="fileinfo" :key="fileinfo.name" :multiple="multiple" :deleteOption="multiple" @delete="onDelete"  />
@@ -34,7 +34,7 @@ import {updateFile, deleteFile} from './services'
 import FilePreview from './FilePreview.vue'
 export default {
     name:'FileUpdate',
-    props:['userId', 'value', 'accept', 'multiple', 'label'],
+    props:['id', 'userId', 'value', 'accept', 'multiple', 'label'],
     components:{
         FilePreview
     },
@@ -121,9 +121,9 @@ export default {
     position: relative;
     flex-direction: column;
     border-radius: 5px;
-    padding: 2px;
+    padding: 2px ;
     justify-content: center; 
-    min-height: 40px; /* for responsive height */
+    min-height: 38px; /* for responsive height */
     cursor: pointer;
     background: rgb(255, 255, 255);
     border: rgb(114, 114, 114) solid 1.5px;
@@ -131,32 +131,28 @@ export default {
 .browse{
     border: none;
     color:gray;
-    font-size: 13px;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
+
 .form-file{
         overflow: hidden;
         width: 100%;
-        height: 45px;
+        height: 38px;
         opacity: 0;
         position: absolute;
-          cursor: pointer;  
+        cursor: pointer;  
 }
 .file-input{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    text-align: center;
     width: 100%;
+    display: flex;
     justify-content: center;
+    align-items: center;
     border: rgb(179, 179, 179) dashed 1.5px;
     border-radius: 5px;
-  
-}
-.upload-text{
-     font-size: 11px;
-}
-@media screen and (min-width: 768px) and (max-width: 991px) {
-    .upload-text{
-        font-size: 13px;
-    }
+    height: 30px;
 }
 </style>
