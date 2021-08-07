@@ -1,14 +1,14 @@
+import config from "../../../public/config/ServiceConfig.json"
+
 var Minio = require('minio')
 
 var minioClient = new Minio.Client({
-    endPoint: "localhost",
-    port: 9000,
+    endPoint: config["minio-url"],
+    port: config["minio-port"],
     useSSL: false,
-    accessKey: "minioadmin",
-    secretKey: "minioadmin"
+    accessKey: config["access-key"],
+    secretKey: config["secret-key"]
 });
-
-
 
 
 async function getAsByteArray(file) {
